@@ -335,7 +335,7 @@ class SAC(OffPolicyRLModel):
             out = self.sess.run(self.step_ops, feed_dict)
 
         # Unpack to monitor losses and entropy
-        policy_loss, qf1_loss, qf2_loss, value_loss, *values = out
+        policy_loss, qf1_loss, qf2_loss, value_loss, values = out[0:4] + [out[4:]]
         # qf1, qf2, value_fn, logp_pi, entropy, *_ = values
         entropy = values[4]
 
