@@ -9,7 +9,7 @@ from future import standard_library
 standard_library.install_aliases()
 import warnings
 from itertools import zip_longest
-from abc import ABC
+from abc import ABCMeta
 
 import numpy as np
 import tensorflow as tf
@@ -97,7 +97,7 @@ def mlp_extractor(flat_observations, net_arch, act_fun):
     return latent_policy, latent_value
 
 
-class BasePolicy(ABC):
+class BasePolicy(ABCMeta):
     """
     The base policy object
 
@@ -622,7 +622,7 @@ def register_policy(name, policy):
     :param policy: (subclass of BasePolicy) the policy
     """
     sub_class = None
-    for cls in BasePolicy.__subclasses__():
+    for cls in BasePolicy.__subclasses__(BasePolicy):
         if issubclass(policy, cls):
             sub_class = cls
             break

@@ -4,7 +4,7 @@ from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
 standard_library.install_aliases()
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 import pickle
 
 import cloudpickle
@@ -33,7 +33,7 @@ class NotSteppingError(Exception):
         Exception.__init__(self, msg)
 
 
-class VecEnv(ABC):
+class VecEnv(ABCMeta):
     """
     An abstract asynchronous, vectorized environment.
 

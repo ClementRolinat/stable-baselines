@@ -11,7 +11,7 @@ from builtins import map
 from future import standard_library
 standard_library.install_aliases()
 from builtins import object
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 import os
 import glob
 import warnings
@@ -27,7 +27,7 @@ from stable_baselines.common.vec_env import VecEnvWrapper, VecEnv, DummyVecEnv
 from stable_baselines import logger
 
 
-class BaseRLModel(ABC):
+class BaseRLModel(ABCMeta):
     """
     The base RL model
 
