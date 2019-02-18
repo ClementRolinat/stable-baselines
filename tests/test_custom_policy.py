@@ -1,3 +1,12 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from builtins import super
+from builtins import range
+from builtins import dict
+from future import standard_library
+standard_library.install_aliases()
 import os
 
 import gym
@@ -19,8 +28,7 @@ class CustomCommonPolicy(FeedForwardPolicy):
         # Default value
         if 'net_arch' not in kwargs:
             kwargs['net_arch'] = [8, dict(vf=[8, 8], pi=[8, 8])]
-        super(CustomCommonPolicy, self).__init__(*args, **kwargs,
-                                                 feature_extraction="mlp")
+        super(CustomCommonPolicy, self).__init__(*args, feature_extraction="mlp", **kwargs)
 
 
 class CustomDQNPolicy(DQNPolicy):
@@ -28,8 +36,7 @@ class CustomDQNPolicy(DQNPolicy):
         # Default value
         if 'layers' not in kwargs:
             kwargs['layers'] = [8, 8]
-        super(CustomDQNPolicy, self).__init__(*args, **kwargs,
-                                              feature_extraction="mlp")
+        super(CustomDQNPolicy, self).__init__(*args, feature_extraction="mlp", **kwargs)
 
 
 class CustomDDPGPolicy(DDPGPolicy):
@@ -37,8 +44,7 @@ class CustomDDPGPolicy(DDPGPolicy):
         # Default value
         if 'layers' not in kwargs:
             kwargs['layers'] = [8, 8]
-        super(CustomDDPGPolicy, self).__init__(*args, **kwargs,
-                                               feature_extraction="mlp")
+        super(CustomDDPGPolicy, self).__init__(*args, feature_extraction="mlp", **kwargs)
 
 
 class CustomSACPolicy(SACPolicy):
@@ -46,8 +52,7 @@ class CustomSACPolicy(SACPolicy):
         # Default value
         if 'layers' not in kwargs:
             kwargs['layers'] = [8, 8]
-        super(CustomSACPolicy, self).__init__(*args, **kwargs,
-                                              feature_extraction="mlp")
+        super(CustomSACPolicy, self).__init__(*args, feature_extraction="mlp", **kwargs)
 
 
 # MODEL_CLASS, POLICY_CLASS, POLICY_KWARGS

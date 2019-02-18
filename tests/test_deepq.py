@@ -1,3 +1,9 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 from stable_baselines.deepq.experiments.custom_cartpole import main as main_custom
 from stable_baselines.deepq.experiments.train_cartpole import main as train_cartpole
 from stable_baselines.deepq.experiments.enjoy_cartpole import main as enjoy_cartpole
