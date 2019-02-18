@@ -501,7 +501,7 @@ class DDPG(OffPolicyRLModel):
         setup pop-art normalization of the critic output
 
         See https://arxiv.org/pdf/1602.07714.pdf for details.
-        Preserving Outputs Precisely, while Adaptively Rescaling Targets”.
+        Preserving Outputs Precisely, while Adaptively Rescaling Targets.
         """
         self.old_std = tf.placeholder(tf.float32, shape=[1], name='old_std')
         new_std = self.ret_rms.std
@@ -717,9 +717,10 @@ class DDPG(OffPolicyRLModel):
         names = self.stats_names[:]
         assert len(names) == len(values)
         stats = dict(zip(names, values))
+        
 
         if self.param_noise is not None:
-            stats = {**stats, **self.param_noise.get_stats()}
+            stats.update(self.param_noise.get_stats())
 
         return stats
 

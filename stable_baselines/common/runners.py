@@ -6,10 +6,10 @@ from builtins import range
 from future import standard_library
 standard_library.install_aliases()
 import numpy as np
-from abc import ABC, abstractmethod
+from abc import ABCMeta, abstractmethod
 
 
-class AbstractEnvRunner(ABC):
+class AbstractEnvRunner(ABCMeta):
     def __init__(self, **_3to2kwargs):
         n_steps = _3to2kwargs['n_steps']; del _3to2kwargs['n_steps']
         model = _3to2kwargs['model']; del _3to2kwargs['model']
