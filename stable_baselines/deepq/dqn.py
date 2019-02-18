@@ -15,7 +15,7 @@ import tensorflow as tf
 import numpy as np
 import gym
 
-from stable_baselines import logger, deepq
+from stable_baselines import logger
 from stable_baselines.common import tf_util, OffPolicyRLModel, SetVerbosity, TensorboardWriter
 from stable_baselines.common.vec_env import VecEnv
 from stable_baselines.common.schedules import LinearSchedule
