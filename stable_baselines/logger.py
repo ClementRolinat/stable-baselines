@@ -1,3 +1,14 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import filter
+from builtins import open
+from builtins import map
+from builtins import str
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import os
 import sys
 import shutil
@@ -298,7 +309,9 @@ def getkvs():
     return Logger.CURRENT.name2val
 
 
-def log(*args, level=INFO):
+def log(*args, **_3to2kwargs):
+    if 'level' in _3to2kwargs: level = _3to2kwargs['level']; del _3to2kwargs['level']
+    else: level = INFO
     """
     Write the sequence of args, with no separators,
     to the console and output files (if you've configured an output file).
@@ -387,7 +400,7 @@ record_tabular = logkv
 dump_tabular = dumpkvs
 
 
-class ProfileKV:
+class ProfileKV(object):
     def __init__(self, name):
         """
         Usage:
@@ -486,7 +499,9 @@ class Logger(object):
         self.name2val.clear()
         self.name2cnt.clear()
 
-    def log(self, *args, level=INFO):
+    def log(self, *args, **_3to2kwargs):
+        if 'level' in _3to2kwargs: level = _3to2kwargs['level']; del _3to2kwargs['level']
+        else: level = INFO
         """
         Write the sequence of args, with no separators,
         to the console and output files (if you've configured an output file).

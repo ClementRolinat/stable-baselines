@@ -8,8 +8,15 @@ time throughout the execution of the algorithm, such as:
 Each schedule has a function `value(t)` which returns the current value
 of the parameter given the timestep t of the optimization procedure.
 """
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
 
 
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
 class Schedule(object):
     def value(self, step):
         """

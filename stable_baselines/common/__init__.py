@@ -1,4 +1,10 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 # flake8: noqa F403
+from future import standard_library
+standard_library.install_aliases()
 from stable_baselines.common.console_util import fmt_row, fmt_item, colorize
 from stable_baselines.common.dataset import Dataset
 from stable_baselines.common.math_util import discount, discount_with_boundaries, explained_variance, \

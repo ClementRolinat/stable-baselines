@@ -1,3 +1,16 @@
+from __future__ import print_function
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import absolute_import
+from builtins import super
+from builtins import open
+from builtins import int
+from builtins import range
+from builtins import zip
+from builtins import map
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 from abc import ABC, abstractmethod
 import os
 import glob
@@ -26,7 +39,11 @@ class BaseRLModel(ABC):
     :param policy_base: (BasePolicy) the base policy used by this method
     """
 
-    def __init__(self, policy, env, verbose=0, *, requires_vec_env, policy_base, policy_kwargs=None):
+    def __init__(self, policy, env, verbose=0, **_3to2kwargs):
+        if 'policy_kwargs' in _3to2kwargs: policy_kwargs = _3to2kwargs['policy_kwargs']; del _3to2kwargs['policy_kwargs']
+        else: policy_kwargs = None
+        policy_base = _3to2kwargs['policy_base']; del _3to2kwargs['policy_base']
+        requires_vec_env = _3to2kwargs['requires_vec_env']; del _3to2kwargs['requires_vec_env']
         if isinstance(policy, str):
             self.policy = get_policy_from_name(policy_base, policy)
         else:
@@ -476,7 +493,11 @@ class OffPolicyRLModel(BaseRLModel):
     :param policy_base: (BasePolicy) the base policy used by this method
     """
 
-    def __init__(self, policy, env, replay_buffer, verbose=0, *, requires_vec_env, policy_base, policy_kwargs=None):
+    def __init__(self, policy, env, replay_buffer, verbose=0, **_3to2kwargs):
+        if 'policy_kwargs' in _3to2kwargs: policy_kwargs = _3to2kwargs['policy_kwargs']; del _3to2kwargs['policy_kwargs']
+        else: policy_kwargs = None
+        policy_base = _3to2kwargs['policy_base']; del _3to2kwargs['policy_base']
+        requires_vec_env = _3to2kwargs['requires_vec_env']; del _3to2kwargs['requires_vec_env']
         super(OffPolicyRLModel, self).__init__(policy, env, verbose=verbose, requires_vec_env=requires_vec_env,
                                                policy_base=policy_base, policy_kwargs=policy_kwargs)
 
@@ -533,7 +554,7 @@ class _UnvecWrapper(VecEnvWrapper):
         return self.venv.render(mode=mode)
 
 
-class SetVerbosity:
+class SetVerbosity(object):
     def __init__(self, verbose=0):
         """
         define a region of code for certain level of verbosity
@@ -563,7 +584,7 @@ class SetVerbosity:
             gym.logger.set_level(self.gym_level)
 
 
-class TensorboardWriter:
+class TensorboardWriter(object):
     def __init__(self, graph, tensorboard_log_path, tb_log_name, new_tb_log=True):
         """
         Create a Tensorboard writer for a code segment, and saves it to the log directory as its own run

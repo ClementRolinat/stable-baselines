@@ -1,9 +1,16 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import tensorflow as tf
 
 from stable_baselines.her.util import mlp
 
 
-class ActorCritic:
+class ActorCritic(object):
     def __init__(self, inputs_tf, dim_obs, dim_goal, dim_action,
                  max_u, o_stats, g_stats, hidden, layers, **kwargs):
         """The actor-critic network and related training code.

@@ -2,6 +2,13 @@
 Reference: https://github.com/openai/imitation
 I follow the architecture from the official repository
 """
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
 import tensorflow as tf
 import numpy as np
 

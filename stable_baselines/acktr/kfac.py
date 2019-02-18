@@ -1,3 +1,12 @@
+from __future__ import print_function
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import absolute_import
+from builtins import int
+from builtins import zip
+from builtins import object
+from future import standard_library
+standard_library.install_aliases()
 import re
 from functools import reduce
 
@@ -10,7 +19,7 @@ KFAC_OPS = ['MatMul', 'Conv2D', 'BiasAdd']
 KFAC_DEBUG = False
 
 
-class KfacOptimizer:
+class KfacOptimizer(object):
     def __init__(self, learning_rate=0.01, momentum=0.9, clip_kl=0.01, kfac_update=2, stats_accum_iter=60,
                  full_stats_init=False, cold_iter=100, cold_lr=None, async_eigen_decomp=False,
                  async_stats=False, epsilon=1e-2, stats_decay=0.95, blockdiag_bias=False,

@@ -1,3 +1,13 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import map
+from builtins import int
+from builtins import str
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
 import copy
 import os
 import functools
@@ -286,7 +296,9 @@ class _Function(object):
         else:
             feed_dict[inpt] = value
 
-    def __call__(self, *args, sess=None, **kwargs):
+    def __call__(self, *args, **kwargs):
+        if 'sess' in kwargs: sess = kwargs['sess']; del kwargs['sess']
+        else: sess = None
         assert len(args) <= len(self.inputs), "Too many arguments provided"
         if sess is None:
             sess = tf.get_default_session()

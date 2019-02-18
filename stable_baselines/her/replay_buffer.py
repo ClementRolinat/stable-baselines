@@ -1,9 +1,16 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import threading
 
 import numpy as np
 
 
-class ReplayBuffer:
+class ReplayBuffer(object):
     def __init__(self, buffer_shapes, size_in_transitions, time_horizon, sample_transitions):
         """
         Creates a replay buffer.

@@ -1,3 +1,10 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import threading
 
 import numpy as np
@@ -7,7 +14,7 @@ import tensorflow as tf
 from stable_baselines.her.util import reshape_for_broadcasting
 
 
-class Normalizer:
+class Normalizer(object):
     def __init__(self, size, eps=1e-2, default_clip_range=np.inf, sess=None):
         """
         A normalizer that ensures that observations are approximately distributed according to
@@ -148,7 +155,7 @@ class Normalizer:
         self.sess.run(self.recompute_op)
 
 
-class IdentityNormalizer:
+class IdentityNormalizer(object):
     def __init__(self, size, std=1.):
         """
         Normalizer that returns the input unchanged

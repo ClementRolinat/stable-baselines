@@ -3,6 +3,14 @@ from stable_baselines/ppo1/mlp_policy.py and add simple modification
 (1) add reuse argument
 (2) cache the `stochastic` placeholder
 """
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import range
+from builtins import super
+from future import standard_library
+standard_library.install_aliases()
 import gym
 import tensorflow as tf
 
@@ -15,7 +23,13 @@ from stable_baselines.ppo1.mlp_policy import BasePolicy
 class MlpPolicy(BasePolicy):
     recurrent = False
 
-    def __init__(self, name, *args, sess=None, reuse=False, placeholders=None, **kwargs):
+    def __init__(self, name, *args, **kwargs):
+        if 'placeholders' in kwargs: placeholders = kwargs['placeholders']; del kwargs['placeholders']
+        else: placeholders = None
+        if 'reuse' in kwargs: reuse = kwargs['reuse']; del kwargs['reuse']
+        else: reuse = False
+        if 'sess' in kwargs: sess = kwargs['sess']; del kwargs['sess']
+        else: sess = None
         """
         MLP policy for Gail
 

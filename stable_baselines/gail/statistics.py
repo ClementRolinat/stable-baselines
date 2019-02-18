@@ -1,14 +1,22 @@
 """
 This code is highly based on https://github.com/carpedm20/deep-rl-tensorflow/blob/master/agents/statistic.py
 """
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
 
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 import tensorflow as tf
 import numpy as np
 
 import stable_baselines.common.tf_util as tf_util
 
 
-class Stats:
+class Stats(object):
 
     def __init__(self, scalar_keys=None, histogram_keys=None):
         """

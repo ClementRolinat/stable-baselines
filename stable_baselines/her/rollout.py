@@ -1,3 +1,14 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from builtins import zip
+from builtins import open
+from builtins import dict
+from builtins import range
+from future import standard_library
+standard_library.install_aliases()
+from builtins import object
 from collections import deque
 import pickle
 
@@ -7,7 +18,7 @@ from mujoco_py import MujocoException
 from stable_baselines.her.util import convert_episode_to_batch_major
 
 
-class RolloutWorker:
+class RolloutWorker(object):
     def __init__(self, make_env, policy, dims, logger, time_horizon, rollout_batch_size=1,
                  exploit=False, use_target_net=False, compute_q=False, noise_eps=0,
                  random_eps=0, history_len=100, render=False):

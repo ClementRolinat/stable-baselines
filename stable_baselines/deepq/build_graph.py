@@ -62,6 +62,13 @@ The functions in this file can are used to create the following functions:
     Q' is set to Q once every 10000 updates training steps.
 
 """
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
 import tensorflow as tf
 from gym.spaces import MultiDiscrete
 

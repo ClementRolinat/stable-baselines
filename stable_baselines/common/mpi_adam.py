@@ -1,3 +1,10 @@
+from __future__ import division
+from __future__ import print_function
+from __future__ import unicode_literals
+from __future__ import absolute_import
+from builtins import range
+from future import standard_library
+standard_library.install_aliases()
 import tensorflow as tf
 import numpy as np
 from mpi4py import MPI
@@ -6,8 +13,19 @@ import stable_baselines.common.tf_util as tf_utils
 
 
 class MpiAdam(object):
-    def __init__(self, var_list, *, beta1=0.9, beta2=0.999, epsilon=1e-08, scale_grad_by_procs=True, comm=None,
-                 sess=None):
+    def __init__(self, var_list, **_3to2kwargs):
+        if 'sess' in _3to2kwargs: sess = _3to2kwargs['sess']; del _3to2kwargs['sess']
+        else: sess = None
+        if 'comm' in _3to2kwargs: comm = _3to2kwargs['comm']; del _3to2kwargs['comm']
+        else: comm = None
+        if 'scale_grad_by_procs' in _3to2kwargs: scale_grad_by_procs = _3to2kwargs['scale_grad_by_procs']; del _3to2kwargs['scale_grad_by_procs']
+        else: scale_grad_by_procs = True
+        if 'epsilon' in _3to2kwargs: epsilon = _3to2kwargs['epsilon']; del _3to2kwargs['epsilon']
+        else: epsilon = 1e-08
+        if 'beta2' in _3to2kwargs: beta2 = _3to2kwargs['beta2']; del _3to2kwargs['beta2']
+        else: beta2 = 0.999
+        if 'beta1' in _3to2kwargs: beta1 = _3to2kwargs['beta1']; del _3to2kwargs['beta1']
+        else: beta1 = 0.9
         """
         A parallel MPI implementation of the Adam optimizer for TensorFlow
         https://arxiv.org/abs/1412.6980

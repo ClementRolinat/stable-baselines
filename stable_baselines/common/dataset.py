@@ -1,3 +1,12 @@
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from builtins import map
+from builtins import dict
+from builtins import next
+from future import standard_library
+standard_library.install_aliases()
 import numpy as np
 
 
@@ -79,7 +88,15 @@ class Dataset(object):
         return Dataset(data_map, deterministic)
 
 
-def iterbatches(arrays, *, num_batches=None, batch_size=None, shuffle=True, include_final_partial_batch=True):
+def iterbatches(arrays, **_3to2kwargs):
+    if 'include_final_partial_batch' in _3to2kwargs: include_final_partial_batch = _3to2kwargs['include_final_partial_batch']; del _3to2kwargs['include_final_partial_batch']
+    else: include_final_partial_batch = True
+    if 'shuffle' in _3to2kwargs: shuffle = _3to2kwargs['shuffle']; del _3to2kwargs['shuffle']
+    else: shuffle = True
+    if 'batch_size' in _3to2kwargs: batch_size = _3to2kwargs['batch_size']; del _3to2kwargs['batch_size']
+    else: batch_size = None
+    if 'num_batches' in _3to2kwargs: num_batches = _3to2kwargs['num_batches']; del _3to2kwargs['num_batches']
+    else: num_batches = None
     """
     Iterates over arrays in batches, must provide either num_batches or batch_size, the other must be None.
 
