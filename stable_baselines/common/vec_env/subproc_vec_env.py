@@ -104,7 +104,7 @@ class SubprocVecEnv(VecEnv):
         for pipe in self.remotes:
             # gather images from subprocesses
             # `mode` will be taken into account later
-            pipe.send(('render', (args, {'mode': 'rgb_array', **kwargs})))
+            pipe.send(('render', (args, dict(mode='rgb_array', **kwargs))))
         imgs = [pipe.recv() for pipe in self.remotes]
         # Create a big image by tiling images from subprocesses
         bigimg = tile_images(imgs)
