@@ -1,3 +1,14 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import super
+from builtins import map
+from builtins import int
+from builtins import range
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
 import time
 import sys
 import multiprocessing
@@ -378,7 +389,12 @@ class PPO2(ActorCriticRLModel):
 
 
 class Runner(AbstractEnvRunner):
-    def __init__(self, *, env, model, n_steps, gamma, lam):
+    def __init__(self, **_3to2kwargs):
+        lam = _3to2kwargs['lam']; del _3to2kwargs['lam']
+        gamma = _3to2kwargs['gamma']; del _3to2kwargs['gamma']
+        n_steps = _3to2kwargs['n_steps']; del _3to2kwargs['n_steps']
+        model = _3to2kwargs['model']; del _3to2kwargs['model']
+        env = _3to2kwargs['env']; del _3to2kwargs['env']
         """
         A runner to learn the policy of an environment for a model
 

@@ -268,21 +268,24 @@ class PPO1(ActorCriticRLModel):
                                 if self.full_tensorboard_log and (1 + k) % 10 == 0:
                                     run_options = tf.RunOptions(trace_level=tf.RunOptions.FULL_TRACE)
                                     run_metadata = tf.RunMetadata()
-                                    summary, grad, *newlosses = self.lossandgrad(batch["ob"], batch["ob"], batch["ac"],
+                                    tempList = self.lossandgrad(batch["ob"], batch["ob"], batch["ac"],
                                                                                  batch["atarg"], batch["vtarg"],
                                                                                  cur_lrmult, sess=self.sess,
                                                                                  options=run_options,
                                                                                  run_metadata=run_metadata)
+                                    summary, grad, newlosses = tempList[0:2] + [tempList[2:]]
                                     writer.add_run_metadata(run_metadata, 'step%d' % steps)
                                 else:
-                                    summary, grad, *newlosses = self.lossandgrad(batch["ob"], batch["ob"], batch["ac"],
+                                    tempList = self.lossandgrad(batch["ob"], batch["ob"], batch["ac"],
                                                                                  batch["atarg"], batch["vtarg"],
                                                                                  cur_lrmult, sess=self.sess)
+                                    summary, grad, newlosses = tempList[0:2] + [tempList[2:]]
                                 writer.add_summary(summary, steps)
                             else:
-                                _, grad, *newlosses = self.lossandgrad(batch["ob"], batch["ob"], batch["ac"],
+                                tempList = self.lossandgrad(batch["ob"], batch["ob"], batch["ac"],
                                                                        batch["atarg"], batch["vtarg"], cur_lrmult,
                                                                        sess=self.sess)
+                                _, grad, newlosses = tempList[0:2] + [tempList[2:]]
 
                             self.adam.update(grad, self.optim_stepsize * cur_lrmult)
                             losses.append(newlosses)
