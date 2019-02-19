@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from future.utils import with_metaclass
 from future import standard_library
 standard_library.install_aliases()
 from abc import ABCMeta, abstractmethod
@@ -33,7 +34,7 @@ class NotSteppingError(Exception):
         Exception.__init__(self, msg)
 
 
-class VecEnv(ABCMeta):
+class VecEnv(with_metaclass(ABCMeta, object)):
     """
     An abstract asynchronous, vectorized environment.
 

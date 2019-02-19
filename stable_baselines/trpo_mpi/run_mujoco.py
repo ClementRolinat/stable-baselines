@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
 # noinspection PyUnresolvedReferences
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import division
+from __future__ import absolute_import
+from future import standard_library
+standard_library.install_aliases()
 from mpi4py import MPI
 
 from stable_baselines.common.cmd_util import make_mujoco_env, mujoco_arg_parser

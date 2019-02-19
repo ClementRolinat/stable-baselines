@@ -1,3 +1,15 @@
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import print_function
+from __future__ import absolute_import
+from builtins import super
+from builtins import range
+from builtins import map
+from builtins import zip
+from builtins import dict
+from builtins import int
+from future import standard_library
+standard_library.install_aliases()
 from collections import deque
 import time
 
@@ -227,7 +239,7 @@ class PPO1(ActorCriticRLModel):
 
                     logger.log("********** Iteration %i ************" % iters_so_far)
 
-                    seg = seg_gen.__next__()
+                    seg = next(seg_gen)
                     add_vtarg_and_adv(seg, self.gamma, self.lam)
 
                     # ob, ac, atarg, ret, td1ret = map(np.concatenate, (obs, acs, atargs, rets, td1rets))

@@ -4,6 +4,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import os
 from io import BytesIO
@@ -49,7 +50,7 @@ def test_model_manipulation(model_class, storage_method):
         env = DummyVecEnv([lambda: IdentityEnv(10)])
 
         # create and train
-        model = model_class(policy="MlpPolicy", env=env)
+        model = model_class(policy=native_str("MlpPolicy"), env=env)
         model.learn(total_timesteps=50000, seed=0)
 
         # predict and measure the acc reward

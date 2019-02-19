@@ -8,6 +8,7 @@ from builtins import int
 from builtins import range
 from builtins import zip
 from builtins import map
+from future.utils import with_metaclass, native_str
 from future import standard_library
 standard_library.install_aliases()
 from builtins import object
@@ -27,7 +28,7 @@ from stable_baselines.common.vec_env import VecEnvWrapper, VecEnv, DummyVecEnv
 from stable_baselines import logger
 
 
-class BaseRLModel(ABCMeta):
+class BaseRLModel(with_metaclass(ABCMeta, object)):
     """
     The base RL model
 

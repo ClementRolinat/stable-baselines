@@ -6,6 +6,7 @@ from builtins import super
 from builtins import dict
 from builtins import str
 from future import standard_library
+from future.utils import with_metaclass
 standard_library.install_aliases()
 import warnings
 from itertools import zip_longest
@@ -97,7 +98,7 @@ def mlp_extractor(flat_observations, net_arch, act_fun):
     return latent_policy, latent_value
 
 
-class BasePolicy(ABCMeta):
+class BasePolicy(with_metaclass(ABCMeta, object)):
     """
     The base policy object
 
@@ -622,7 +623,7 @@ def register_policy(name, policy):
     :param policy: (subclass of BasePolicy) the policy
     """
     sub_class = None
-    for cls in BasePolicy.__subclasses__(BasePolicy):
+    for cls in BasePolicy.__subclasses__():
         if issubclass(policy, cls):
             sub_class = cls
             break

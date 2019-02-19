@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import pytest
 import numpy as np
@@ -35,7 +36,7 @@ def test_identity_multidiscrete(model_class):
     """
     env = DummyVecEnv([lambda: IdentityEnvMultiDiscrete(10)])
 
-    model = model_class("MlpPolicy", env)
+    model = model_class(native_str("MlpPolicy"), env)
     model.learn(total_timesteps=1000, seed=0)
 
     n_trials = 1000
@@ -64,7 +65,7 @@ def test_identity_multibinary(model_class):
     """
     env = DummyVecEnv([lambda: IdentityEnvMultiBinary(10)])
 
-    model = model_class("MlpPolicy", env)
+    model = model_class(native_str("MlpPolicy"), env)
     model.learn(total_timesteps=1000, seed=0)
 
     n_trials = 1000

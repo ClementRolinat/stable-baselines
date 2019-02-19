@@ -6,7 +6,9 @@ from builtins import filter
 from builtins import open
 from builtins import map
 from builtins import str
+from builtins import dict
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 from builtins import object
 import os
@@ -70,7 +72,7 @@ class HumanOutputFormat(KVWriter, SeqWriter):
 
     def writekvs(self, kvs):
         # Create strings for printing
-        key2str = {}
+        key2str = dict()
         for (key, val) in sorted(kvs.items()):
             if isinstance(val, float):
                 valstr = '%-8.3g' % (val,)
@@ -160,6 +162,7 @@ class CSVOutputFormat(KVWriter):
 
     def writekvs(self, kvs):
         # Add our current row to the history
+        kvs = dict(kvs)
         extra_keys = kvs.keys() - self.keys
         if extra_keys:
             self.keys.extend(extra_keys)
@@ -198,7 +201,8 @@ class TensorBoardOutputFormat(KVWriter):
 
         :param folder: (str) the folder to write the log to
         """
-        os.makedirs(folder, exist_ok=True)
+        if os.access(folder, os.F_OK) == False:
+            os.makedirs(folder)
         self.dir = folder
         self.step = 1
         prefix = 'events'
@@ -214,7 +218,7 @@ class TensorBoardOutputFormat(KVWriter):
 
     def writekvs(self, kvs):
         def summary_val(key, value):
-            kwargs = {'tag': key, 'simple_value': float(value)}
+            kwargs = {native_str('tag'): key, native_str('simple_value'): float(value)}
             return self._tf.Summary.Value(**kwargs)
 
         summary = self._tf.Summary(value=[summary_val(k, v) for k, v in kvs.items()])
@@ -242,7 +246,8 @@ def make_output_format(_format, ev_dir, log_suffix=''):
     :param log_suffix: (str) the suffix for the log file
     :return: (KVWrite) the logger
     """
-    os.makedirs(ev_dir, exist_ok=True)
+    if os.access(ev_dir, os.F_OK) == False:
+        os.makedirs(ev_dir)
     if _format == 'stdout':
         return HumanOutputFormat(sys.stdout)
     elif _format == 'log':
@@ -570,7 +575,8 @@ def configure(folder=None, format_strs=None):
     if folder is None:
         folder = os.path.join(tempfile.gettempdir(), datetime.datetime.now().strftime("openai-%Y-%m-%d-%H-%M-%S-%f"))
     assert isinstance(folder, str)
-    os.makedirs(folder, exist_ok=True)
+    if os.access(folder, os.F_OK) == False:
+        os.makedirs(folder)
 
     log_suffix = ''
     from mpi4py import MPI

@@ -57,7 +57,7 @@ class DummyVecEnv(VecEnv):
                 obs = self.envs[env_idx].reset()
             self._save_obs(env_idx, obs)
         return (np.copy(self._obs_from_buf()), np.copy(self.buf_rews), np.copy(self.buf_dones),
-                self.buf_infos.copy())
+                np.copy(self.buf_infos))
 
     def reset(self):
         for env_idx in range(self.num_envs):

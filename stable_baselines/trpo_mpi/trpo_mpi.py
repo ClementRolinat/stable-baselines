@@ -1,3 +1,13 @@
+from __future__ import print_function
+from __future__ import division
+from __future__ import unicode_literals
+from __future__ import absolute_import
+from builtins import super
+from builtins import map
+from builtins import range
+from builtins import zip
+from future import standard_library
+standard_library.install_aliases()
 import time
 from contextlib import contextmanager
 from collections import deque
@@ -315,7 +325,7 @@ class TRPO(ActorCriticRLModel):
                     seg = None
                     for k in range(self.g_step):
                         with self.timed("sampling"):
-                            seg = seg_gen.__next__()
+                            seg = next(seg_gen)
                         add_vtarg_and_adv(seg, self.gamma, self.lam)
                         # ob, ac, atarg, ret, td1ret = map(np.concatenate, (obs, acs, atargs, rets, td1rets))
                         observation, action, atarg, tdlamret = seg["ob"], seg["ac"], seg["adv"], seg["tdlamret"]
@@ -330,8 +340,8 @@ class TRPO(ActorCriticRLModel):
                                                                               seg["dones"].reshape((self.n_envs, -1)),
                                                                               writer, self.num_timesteps)
 
-                        args = seg["ob"], seg["ob"], seg["ac"], atarg
-                        fvpargs = [arr[::5] for arr in args]
+                        args = seg["ob"], seg["ob"], seg["ac"], atarg, tdlamret
+                        fvpargs = [arr[::5] for arr in args[0:4]]
 
                         self.assign_old_eq_new(sess=self.sess)
 
@@ -341,7 +351,7 @@ class TRPO(ActorCriticRLModel):
                             run_metadata = tf.RunMetadata() if self.full_tensorboard_log else None
                             # run loss backprop with summary, and save the metadata (memory, compute time, ...)
                             if writer is not None:
-                                tempList = self.compute_lossandgrad(*args, ret=tdlamret, sess=self.sess,
+                                tempList = self.compute_lossandgrad(*args, sess=self.sess,
                                                                                       options=run_options,
                                                                                       run_metadata=run_metadata)
                                 summary, grad, lossbefore = tempList[0:2] + [tempList[2:]]
@@ -350,7 +360,7 @@ class TRPO(ActorCriticRLModel):
                                     writer.add_run_metadata(run_metadata, 'step%d' % steps)
                                 writer.add_summary(summary, steps)
                             else:
-                                tempList = self.compute_lossandgrad(*args, ret=tdlamret, sess=self.sess,
+                                tempList = self.compute_lossandgrad(*args, sess=self.sess,
                                                                                 options=run_options,
                                                                                 run_metadata=run_metadata)
                                 _, grad, lossbefore = tempList[0:2] + [tempList[2:]]
@@ -378,7 +388,7 @@ class TRPO(ActorCriticRLModel):
                                 thnew = thbefore + fullstep * stepsize
                                 self.set_from_flat(thnew)
                                 mean_losses = surr, kl_loss = self.allmean(
-                                    np.array(self.compute_losses(*args, sess=self.sess)))[0:2]
+                                    np.array(self.compute_losses(*args[0:4], sess=self.sess)))[0:2]
                                 improve = surr - surrbefore
                                 logger.log("Expected: %.3f Actual: %.3f" % (expectedimprove, improve))
                                 if not np.isfinite(mean_losses).all():

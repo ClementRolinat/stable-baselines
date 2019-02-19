@@ -4,13 +4,15 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
+from future.utils import with_metaclass
 standard_library.install_aliases()
 import numpy as np
 from abc import ABCMeta, abstractmethod
 
 
-class AbstractEnvRunner(ABCMeta):
+class AbstractEnvRunner(with_metaclass(ABCMeta, object)):
     def __init__(self, **_3to2kwargs):
+        print(_3to2kwargs)
         n_steps = _3to2kwargs['n_steps']; del _3to2kwargs['n_steps']
         model = _3to2kwargs['model']; del _3to2kwargs['model']
         env = _3to2kwargs['env']; del _3to2kwargs['env']

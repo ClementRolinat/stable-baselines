@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import pytest
 import numpy as np
@@ -22,7 +23,7 @@ def test_identity(model_class):
 
     :param model_class: (BaseRLModel) the RL model
     """
-    model = model_class(policy="MlpPolicy", env=DummyVecEnv([lambda: IdentityEnv(dim=10)]))
+    model = model_class(policy=native_str("MlpPolicy"), env=DummyVecEnv([lambda: IdentityEnv(dim=10)]))
 
     env0 = IdentityEnv(dim=10)
     env1 = DummyVecEnv([lambda: IdentityEnv(dim=10)])
@@ -47,7 +48,7 @@ def test_identity_box(model_class):
 
     :param model_class: (BaseRLModel) the RL model
     """
-    model = model_class(policy="MlpPolicy", env=DummyVecEnv([lambda: IdentityEnvBox(eps=0.5)]))
+    model = model_class(policy=native_str("MlpPolicy"), env=DummyVecEnv([lambda: IdentityEnvBox(eps=0.5)]))
 
     env0 = IdentityEnvBox()
     env1 = DummyVecEnv([lambda: IdentityEnvBox(eps=0.5)])
@@ -72,7 +73,7 @@ def test_identity_multi_binary(model_class):
 
     :param model_class: (BaseRLModel) the RL model
     """
-    model = model_class(policy="MlpPolicy", env=DummyVecEnv([lambda: IdentityEnvMultiBinary(dim=10)]))
+    model = model_class(policy=native_str("MlpPolicy"), env=DummyVecEnv([lambda: IdentityEnvMultiBinary(dim=10)]))
 
     env0 = IdentityEnvMultiBinary(dim=10)
     env1 = DummyVecEnv([lambda: IdentityEnvMultiBinary(dim=10)])
@@ -97,7 +98,7 @@ def test_identity_multi_discrete(model_class):
 
     :param model_class: (BaseRLModel) the RL model
     """
-    model = model_class(policy="MlpPolicy", env=DummyVecEnv([lambda: IdentityEnvMultiDiscrete(dim=10)]))
+    model = model_class(policy=native_str("MlpPolicy"), env=DummyVecEnv([lambda: IdentityEnvMultiDiscrete(dim=10)]))
 
     env0 = IdentityEnvMultiDiscrete(dim=10)
     env1 = DummyVecEnv([lambda: IdentityEnvMultiDiscrete(dim=10)])
