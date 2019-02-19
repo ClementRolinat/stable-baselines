@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from builtins import super
 from builtins import str
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import tensorflow as tf
 import numpy as np
@@ -35,7 +36,7 @@ class DDPGPolicy(BasePolicy):
         self.qvalue_fn = None
         self.policy = None
 
-    def make_actor(self, obs=None, reuse=False, scope="pi"):
+    def make_actor(self, obs=None, reuse=False, scope=native_str("pi")):
         """
         creates an actor object
 
@@ -46,7 +47,7 @@ class DDPGPolicy(BasePolicy):
         """
         raise NotImplementedError
 
-    def make_critic(self, obs=None, action=None, reuse=False, scope="qf"):
+    def make_critic(self, obs=None, action=None, reuse=False, scope=native_str("qf")):
         """
         creates a critic object
 
@@ -133,7 +134,7 @@ class FeedForwardPolicy(DDPGPolicy):
 
         self.activ = act_fun
 
-    def make_actor(self, obs=None, reuse=False, scope="pi"):
+    def make_actor(self, obs=None, reuse=False, scope=native_str("pi")):
         if obs is None:
             obs = self.processed_obs
 
@@ -143,7 +144,7 @@ class FeedForwardPolicy(DDPGPolicy):
             else:
                 pi_h = tf.layers.flatten(obs)
             for i, layer_size in enumerate(self.layers):
-                pi_h = tf.layers.dense(pi_h, layer_size, name='fc' + str(i))
+                pi_h = tf.layers.dense(pi_h, layer_size, name=native_str('fc' + str(i)))
                 if self.layer_norm:
                     pi_h = tf.contrib.layers.layer_norm(pi_h, center=True, scale=True)
                 pi_h = self.activ(pi_h)
@@ -152,7 +153,7 @@ class FeedForwardPolicy(DDPGPolicy):
                                                                                                       maxval=3e-3)))
         return self.policy
 
-    def make_critic(self, obs=None, action=None, reuse=False, scope="qf"):
+    def make_critic(self, obs=None, action=None, reuse=False, scope=native_str("qf")):
         if obs is None:
             obs = self.processed_obs
         if action is None:
@@ -164,7 +165,7 @@ class FeedForwardPolicy(DDPGPolicy):
             else:
                 qf_h = tf.layers.flatten(obs)
             for i, layer_size in enumerate(self.layers):
-                qf_h = tf.layers.dense(qf_h, layer_size, name='fc' + str(i))
+                qf_h = tf.layers.dense(qf_h, layer_size, name=native_str('fc' + str(i)))
                 if self.layer_norm:
                     qf_h = tf.contrib.layers.layer_norm(qf_h, center=True, scale=True)
                 qf_h = self.activ(qf_h)

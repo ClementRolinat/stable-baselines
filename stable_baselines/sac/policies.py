@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from builtins import super
 from builtins import str
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import tensorflow as tf
 import numpy as np
@@ -54,7 +55,7 @@ def mlp(input_ph, layers, activ_fn=tf.nn.relu, layer_norm=False):
     """
     output = input_ph
     for i, layer_size in enumerate(layers):
-        output = tf.layers.dense(output, layer_size, name='fc' + str(i))
+        output = tf.layers.dense(output, layer_size, name=native_str('fc' + str(i)))
         if layer_norm:
             output = tf.contrib.layers.layer_norm(output, center=True, scale=True)
         output = activ_fn(output)
@@ -117,7 +118,7 @@ class SACPolicy(BasePolicy):
         self.act_mu = None
         self.std = None
 
-    def make_actor(self, obs=None, reuse=False, scope="pi"):
+    def make_actor(self, obs=None, reuse=False, scope=native_str("pi")):
         """
         Creates an actor object
 
@@ -129,7 +130,7 @@ class SACPolicy(BasePolicy):
         raise NotImplementedError
 
     def make_critics(self, obs=None, action=None, reuse=False,
-                     scope="values_fn", create_vf=True, create_qf=True):
+                     scope=native_str("values_fn"), create_vf=True, create_qf=True):
         """
         Creates the two Q-Values approximator along with the Value function
 
@@ -211,7 +212,7 @@ class FeedForwardPolicy(SACPolicy):
 
         self.activ_fn = act_fun
 
-    def make_actor(self, obs=None, reuse=False, scope="pi"):
+    def make_actor(self, obs=None, reuse=False, scope=native_str("pi")):
         if obs is None:
             obs = self.processed_obs
 
@@ -252,7 +253,7 @@ class FeedForwardPolicy(SACPolicy):
 
         return deterministic_policy, policy, logp_pi
 
-    def make_critics(self, obs=None, action=None, reuse=False, scope="values_fn",
+    def make_critics(self, obs=None, action=None, reuse=False, scope=native_str("values_fn"),
                      create_vf=True, create_qf=True):
         if obs is None:
             obs = self.processed_obs
@@ -265,9 +266,9 @@ class FeedForwardPolicy(SACPolicy):
 
             if create_vf:
                 # Value function
-                with tf.variable_scope('vf', reuse=reuse):
+                with tf.variable_scope(native_str('vf'), reuse=reuse):
                     vf_h = mlp(critics_h, self.layers, self.activ_fn, layer_norm=self.layer_norm)
-                    value_fn = tf.layers.dense(vf_h, 1, name="vf")
+                    value_fn = tf.layers.dense(vf_h, 1, name=native_str("vf"))
                 self.value_fn = value_fn
 
             if create_qf:
@@ -275,13 +276,13 @@ class FeedForwardPolicy(SACPolicy):
                 qf_h = tf.concat([critics_h, action], axis=-1)
 
                 # Double Q values to reduce overestimation
-                with tf.variable_scope('qf1', reuse=reuse):
+                with tf.variable_scope(native_str('qf1'), reuse=reuse):
                     qf1_h = mlp(qf_h, self.layers, self.activ_fn, layer_norm=self.layer_norm)
-                    qf1 = tf.layers.dense(qf1_h, 1, name="qf1")
+                    qf1 = tf.layers.dense(qf1_h, 1, name=native_str("qf1"))
 
-                with tf.variable_scope('qf2', reuse=reuse):
+                with tf.variable_scope(native_str('qf2'), reuse=reuse):
                     qf2_h = mlp(qf_h, self.layers, self.activ_fn, layer_norm=self.layer_norm)
-                    qf2 = tf.layers.dense(qf2_h, 1, name="qf2")
+                    qf2 = tf.layers.dense(qf2_h, 1, name=native_str("qf2"))
 
                 self.qf1 = qf1
                 self.qf2 = qf2

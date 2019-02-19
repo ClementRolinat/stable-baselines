@@ -8,6 +8,7 @@ from builtins import round
 from builtins import int
 from builtins import zip
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import sys
 import time
@@ -74,7 +75,7 @@ class SAC(OffPolicyRLModel):
 
     def __init__(self, policy, env, gamma=0.99, learning_rate=3e-4, buffer_size=50000,
                  learning_starts=100, train_freq=1, batch_size=64,
-                 tau=0.005, ent_coef='auto', target_update_interval=1,
+                 tau=0.005, ent_coef=native_str('auto'), target_update_interval=1,
                  gradient_steps=1, target_entropy='auto', verbose=0, tensorboard_log=None,
                  _init_setup_model=True, policy_kwargs=None, full_tensorboard_log=False):
 
@@ -144,7 +145,7 @@ class SAC(OffPolicyRLModel):
 
                 self.replay_buffer = ReplayBuffer(self.buffer_size)
 
-                with tf.variable_scope("input", reuse=False):
+                with tf.variable_scope(native_str("input"), reuse=False):
                     # Create policy and target TF objects
                     self.policy_tf = self.policy(self.sess, self.observation_space, self.action_space,
                                                  **self.policy_kwargs)
@@ -164,7 +165,7 @@ class SAC(OffPolicyRLModel):
                                                      name='actions')
                     self.learning_rate_ph = tf.placeholder(tf.float32, [], name="learning_rate_ph")
 
-                with tf.variable_scope("model", reuse=False):
+                with tf.variable_scope(native_str("model"), reuse=False):
                     # Create the policy
                     # first return value corresponds to deterministic actions
                     # policy_out corresponds to stochastic actions, used for training
@@ -208,13 +209,13 @@ class SAC(OffPolicyRLModel):
                         # is passed
                         self.ent_coef = float(self.ent_coef)
 
-                with tf.variable_scope("target", reuse=False):
+                with tf.variable_scope(native_str("target"), reuse=False):
                     # Create the value network
                     _, _, value_target = self.target_policy.make_critics(self.processed_next_obs_ph,
                                                                          create_qf=False, create_vf=True)
                     self.value_target = value_target
 
-                with tf.variable_scope("loss", reuse=False):
+                with tf.variable_scope(native_str("loss"), reuse=False):
                     # Take the min of the two Q-Values (Double-Q Learning)
                     min_qf_pi = tf.minimum(qf1_pi, qf2_pi)
 

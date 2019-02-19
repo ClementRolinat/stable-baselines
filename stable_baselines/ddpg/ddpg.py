@@ -10,6 +10,7 @@ from builtins import range
 from builtins import open
 from builtins import int
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 from functools import reduce
 import os
@@ -297,17 +298,17 @@ class DDPG(OffPolicyRLModel):
                 self.memory = self.memory_policy(limit=self.memory_limit, action_shape=self.action_space.shape,
                                                  observation_shape=self.observation_space.shape)
 
-                with tf.variable_scope("input", reuse=False):
+                with tf.variable_scope(native_str("input"), reuse=False):
                     # Observation normalization.
                     if self.normalize_observations:
-                        with tf.variable_scope('obs_rms'):
+                        with tf.variable_scope(native_str('obs_rms')):
                             self.obs_rms = RunningMeanStd(shape=self.observation_space.shape)
                     else:
                         self.obs_rms = None
 
                     # Return normalization.
                     if self.normalize_returns:
-                        with tf.variable_scope('ret_rms'):
+                        with tf.variable_scope(native_str('ret_rms')):
                             self.ret_rms = RunningMeanStd()
                     else:
                         self.ret_rms = None
@@ -350,7 +351,7 @@ class DDPG(OffPolicyRLModel):
                     self.param_noise_stddev = tf.placeholder(tf.float32, shape=(), name='param_noise_stddev')
 
                 # Create networks and core TF parts that are shared across setup parts.
-                with tf.variable_scope("model", reuse=False):
+                with tf.variable_scope(native_str("model"), reuse=False):
                     self.actor_tf = self.policy_tf.make_actor(normalized_obs0)
                     self.normalized_critic_tf = self.policy_tf.make_critic(normalized_obs0, self.actions)
                     self.normalized_critic_with_actor_tf = self.policy_tf.make_critic(normalized_obs0,
@@ -360,11 +361,11 @@ class DDPG(OffPolicyRLModel):
                 if self.param_noise is not None:
                     self._setup_param_noise(normalized_obs0)
 
-                with tf.variable_scope("target", reuse=False):
+                with tf.variable_scope(native_str("target"), reuse=False):
                     critic_target = self.target_policy.make_critic(normalized_obs1,
                                                                    self.target_policy.make_actor(normalized_obs1))
 
-                with tf.variable_scope("loss", reuse=False):
+                with tf.variable_scope(native_str("loss"), reuse=False):
                     self.critic_tf = denormalize(
                         tf.clip_by_value(self.normalized_critic_tf, self.return_range[0], self.return_range[1]),
                         self.ret_rms)
@@ -387,7 +388,7 @@ class DDPG(OffPolicyRLModel):
                     self._setup_stats()
                     self._setup_target_network_updates()
 
-                with tf.variable_scope("input_info", reuse=False):
+                with tf.variable_scope(native_str("input_info"), reuse=False):
                     tf.summary.scalar('rewards', tf.reduce_mean(self.rewards))
                     tf.summary.scalar('param_noise_stddev', tf.reduce_mean(self.param_noise_stddev))
 
@@ -399,7 +400,7 @@ class DDPG(OffPolicyRLModel):
                         else:
                             tf.summary.histogram('observation', self.obs_train)
 
-                with tf.variable_scope("Adam_mpi", reuse=False):
+                with tf.variable_scope(native_str("Adam_mpi"), reuse=False):
                     self._setup_actor_optimizer()
                     self._setup_critic_optimizer()
                     tf.summary.scalar('actor_loss', self.actor_loss)
@@ -431,13 +432,13 @@ class DDPG(OffPolicyRLModel):
         """
         assert self.param_noise is not None
 
-        with tf.variable_scope("noise", reuse=False):
+        with tf.variable_scope(native_str("noise"), reuse=False):
             self.perturbed_actor_tf = self.param_noise_actor.make_actor(normalized_obs0)
 
-        with tf.variable_scope("noise_adapt", reuse=False):
+        with tf.variable_scope(native_str("noise_adapt"), reuse=False):
             adaptive_actor_tf = self.adaptive_param_noise_actor.make_actor(normalized_obs0)
 
-        with tf.variable_scope("noise_update_func", reuse=False):
+        with tf.variable_scope(native_str("noise_update_func"), reuse=False):
             if self.verbose >= 2:
                 logger.info('setting up param noise')
             self.perturb_policy_ops = get_perturbed_actor_updates('model/pi/', 'noise/pi/', self.param_noise_stddev,
