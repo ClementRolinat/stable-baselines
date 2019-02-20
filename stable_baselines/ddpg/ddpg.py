@@ -132,7 +132,7 @@ def get_perturbed_actor_updates(actor, perturbed_actor, param_noise_stddev, verb
 
     updates = []
     for var, perturbed_var in zip(tf_util.get_globals_vars(actor), tf_util.get_globals_vars(perturbed_actor)):
-        if var in [var for var in tf_util.get_trainable_vars(actor) if 'LayerNorm' not in var.name]:
+        if var in [var_ for var_ in tf_util.get_trainable_vars(actor) if 'LayerNorm' not in var_.name]:
             if verbose >= 2:
                 logger.info('  {} <- {} + noise'.format(perturbed_var.name, var.name))
             updates.append(tf.assign(perturbed_var,
