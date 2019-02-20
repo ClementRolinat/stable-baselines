@@ -6,6 +6,7 @@ from builtins import int
 from builtins import zip
 from builtins import object
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import re
 from functools import reduce
@@ -381,8 +382,8 @@ class KfacOptimizer(object):
                 if stats_var not in stats_updates_cache:
                     batch_size = (tf.shape(fprop_factor)[0])  # batch size
                     if op_type == 'Conv2D':
-                        strides = fops.get_attr("strides")
-                        padding = fops.get_attr("padding")
+                        strides = fops.get_attr(native_str("strides"))
+                        padding = fops.get_attr(native_str("padding"))
                         convkernel_size = var.get_shape()[0:3]
 
                         kernel_height = int(convkernel_size[0])

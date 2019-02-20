@@ -2,6 +2,7 @@ from __future__ import division
 from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
+from past.builtins import basestring
 from builtins import filter
 from builtins import open
 from builtins import map
@@ -574,7 +575,9 @@ def configure(folder=None, format_strs=None):
         folder = os.getenv('OPENAI_LOGDIR')
     if folder is None:
         folder = os.path.join(tempfile.gettempdir(), datetime.datetime.now().strftime("openai-%Y-%m-%d-%H-%M-%S-%f"))
-    assert isinstance(folder, str)
+    folder = native_str(folder)
+    format_str = native_str(format_strs)
+    assert isinstance(folder, basestring)
     if os.access(folder, os.F_OK) == False:
         os.makedirs(folder)
 

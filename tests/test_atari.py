@@ -3,6 +3,7 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import pytest
 
@@ -18,7 +19,7 @@ import stable_baselines.ppo2.run_atari as ppo2_atari
 import stable_baselines.trpo_mpi.run_atari as trpo_atari
 
 
-ENV_ID = 'BreakoutNoFrameskip-v4'
+ENV_ID = native_str('BreakoutNoFrameskip-v4')
 SEED = 3
 NUM_TIMESTEPS = 500
 NUM_CPU = 2
