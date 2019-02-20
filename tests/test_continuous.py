@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from builtins import map
 from builtins import range
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import subprocess
 import os
@@ -54,7 +55,7 @@ def test_model_manipulation(model_class):
         env = DummyVecEnv([lambda: IdentityEnvBox(eps=0.5)])
 
         # create and train
-        model = model_class(policy="MlpPolicy", env=env)
+        model = model_class(policy=native_str("MlpPolicy"), env=env)
         model.learn(total_timesteps=NUM_TIMESTEPS, seed=0)
 
         # predict and measure the acc reward
@@ -68,12 +69,12 @@ def test_model_manipulation(model_class):
         acc_reward = sum(acc_reward) / N_TRIALS
 
         # saving
-        model.save("./test_model")
+        model.save(native_str("./test_model"))
 
         del model, env
 
         # loading
-        model = model_class.load("./test_model")
+        model = model_class.load(native_str("./test_model"))
 
         # changing environment (note: this can be done at loading)
         env = DummyVecEnv([lambda: IdentityEnvBox(eps=0.5)])

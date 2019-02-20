@@ -75,7 +75,7 @@ class SAC(OffPolicyRLModel):
 
     def __init__(self, policy, env, gamma=0.99, learning_rate=3e-4, buffer_size=50000,
                  learning_starts=100, train_freq=1, batch_size=64,
-                 tau=0.005, ent_coef=native_str('auto'), target_update_interval=1,
+                 tau=0.005, ent_coef='auto', target_update_interval=1,
                  gradient_steps=1, target_entropy='auto', verbose=0, tensorboard_log=None,
                  _init_setup_model=True, policy_kwargs=None, full_tensorboard_log=False):
 
@@ -94,7 +94,7 @@ class SAC(OffPolicyRLModel):
         # self.vf_lr = learning_rate
         # Entropy coefficient / Entropy temperature
         # Inverse of the reward scale
-        self.ent_coef = ent_coef
+        self.ent_coef = native_str(ent_coef)
         self.target_update_interval = target_update_interval
         self.gradient_steps = gradient_steps
         self.gamma = gamma
@@ -109,7 +109,7 @@ class SAC(OffPolicyRLModel):
         self.params = None
         self.summary = None
         self.policy_tf = None
-        self.target_entropy = target_entropy
+        self.target_entropy = native_str(target_entropy)
         self.full_tensorboard_log = full_tensorboard_log
 
         self.obs_target = None
@@ -182,7 +182,7 @@ class SAC(OffPolicyRLModel):
                                                                     reuse=True)
 
                     # Target entropy is used when learning the entropy coefficient
-                    if self.target_entropy == 'auto':
+                    if self.target_entropy == native_str('auto'):
                         # automatically set target entropy if needed
                         self.target_entropy = -np.prod(self.env.action_space.shape).astype(np.float32)
                     else:
@@ -193,7 +193,10 @@ class SAC(OffPolicyRLModel):
                     # The entropy coefficient or entropy can be learned automatically
                     # see Automating Entropy Adjustment for Maximum Entropy RL section
                     # of https://arxiv.org/abs/1812.05905
-                    if isinstance(self.ent_coef, str) and self.ent_coef.startswith('auto'):
+                    print(self.ent_coef)
+                    print(isinstance(self.ent_coef, str))
+                    print(self.ent_coef.startswith(native_str('auto')))
+                    if isinstance(self.ent_coef, str) and self.ent_coef.startswith(native_str('auto')):
                         # Default initial value of ent_coef when learned
                         init_value = 1.0
                         if '_' in self.ent_coef:
@@ -508,7 +511,7 @@ class SAC(OffPolicyRLModel):
             "train_freq": self.train_freq,
             "batch_size": self.batch_size,
             "tau": self.tau,
-            "ent_coef": self.ent_coef if isinstance(self.ent_coef, float) else 'auto',
+            "ent_coef": self.ent_coef if isinstance(self.ent_coef, float) else native_str('auto'),
             "target_entropy": self.target_entropy,
             # Should we also store the replay buffer?
             # this may lead to high memory usage
