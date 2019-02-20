@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
+from future.utils import native_str
 from builtins import super
 from builtins import range
 from builtins import dict
@@ -52,9 +53,9 @@ def test_lstm_policy(model_class, policy):
     try:
         # create and train
         if model_class == PPO2:
-            model = model_class(policy, 'CartPole-v1', nminibatches=1)
+            model = model_class(policy, native_str('CartPole-v1'), nminibatches=1)
         else:
-            model = model_class(policy, 'CartPole-v1')
+            model = model_class(policy, native_str('CartPole-v1'))
         model.learn(total_timesteps=100, seed=0)
 
         env = model.get_env()
@@ -64,11 +65,11 @@ def test_lstm_policy(model_class, policy):
             action, _ = model.predict(obs)
             obs, _, _, _ = env.step(action)
         # saving
-        model.save("./test_model")
+        model.save(native_str("./test_model"))
         del model, env
         # loading
-        _ = model_class.load("./test_model", policy=policy)
+        _ = model_class.load(native_str("./test_model"), policy=policy)
 
     finally:
-        if os.path.exists("./test_model"):
-            os.remove("./test_model")
+        if os.path.exists(native_str("./test_model")):
+            os.remove(native_str("./test_model"))
