@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import pytest
 
@@ -16,15 +17,15 @@ PARAM_NOISE_DDPG = AdaptiveParamNoiseSpec(initial_stddev=float(0.2), desired_act
 
 # Hyperparameters for learning identity for each RL model
 LEARN_FUNC_DICT = {
-    'a2c': lambda e: A2C(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'acer': lambda e: ACER(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'acktr': lambda e: ACKTR(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'dqn': lambda e: DQN(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'ddpg': lambda e: DDPG(policy="MlpPolicy", env=e, param_noise=PARAM_NOISE_DDPG).learn(total_timesteps=1000),
-    'ppo1': lambda e: PPO1(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'ppo2': lambda e: PPO2(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'sac': lambda e: SAC(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
-    'trpo': lambda e: TRPO(policy="MlpPolicy", env=e).learn(total_timesteps=1000),
+    'a2c': lambda e: A2C(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'acer': lambda e: ACER(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'acktr': lambda e: ACKTR(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'dqn': lambda e: DQN(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'ddpg': lambda e: DDPG(policy=native_str("MlpPolicy"), env=e, param_noise=PARAM_NOISE_DDPG).learn(total_timesteps=1000),
+    'ppo1': lambda e: PPO1(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'ppo2': lambda e: PPO2(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'sac': lambda e: SAC(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
+    'trpo': lambda e: TRPO(policy=native_str("MlpPolicy"), env=e).learn(total_timesteps=1000),
 }
 
 

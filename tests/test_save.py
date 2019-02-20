@@ -78,7 +78,7 @@ def test_model_manipulation(model_class, storage_method):
 
         # saving
         if storage_method == "path":  # saving to a path
-            model.save("./test_model")
+            model.save(native_str("./test_model"))
         else:  # saving to a file-like object (BytesIO in this case)
             b_io = BytesIO()
             model.save(b_io)
@@ -89,7 +89,7 @@ def test_model_manipulation(model_class, storage_method):
 
         # loading
         if storage_method == "path":  # loading from path
-            model = model_class.load("./test_model")
+            model = model_class.load(native_str("./test_model"))
         else:
             b_io = BytesIO(model_bytes)  # loading from file-like object (BytesIO in this case)
             model = model_class.load(b_io)
@@ -135,5 +135,5 @@ def test_model_manipulation(model_class, storage_method):
         del model, env
 
     finally:
-        if os.path.exists("./test_model"):
-            os.remove("./test_model")
+        if os.path.exists(native_str("./test_model")):
+            os.remove(native_str("./test_model"))
