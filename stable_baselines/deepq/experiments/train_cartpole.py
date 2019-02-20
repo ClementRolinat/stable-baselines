@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import round
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import argparse
 
@@ -36,7 +37,7 @@ def main(args):
 
     :param args: (ArgumentParser) the input arguments
     """
-    env = gym.make("CartPole-v0")
+    env = gym.make(native_str("CartPole-v0"))
     model = DQN(
         env=env,
         policy=MlpPolicy,
@@ -48,7 +49,7 @@ def main(args):
     model.learn(total_timesteps=args.max_timesteps, callback=callback)
 
     print("Saving model to cartpole_model.pkl")
-    model.save("cartpole_model.pkl")
+    model.save(native_str("cartpole_model.pkl"))
 
 
 if __name__ == '__main__':

@@ -3,6 +3,7 @@ from __future__ import unicode_literals
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import argparse
 
@@ -18,8 +19,8 @@ def main(args):
 
     :param args: (ArgumentParser) the input arguments
     """
-    env = gym.make("MountainCar-v0")
-    model = DQN.load("mountaincar_model.pkl", env)
+    env = gym.make(native_str("MountainCar-v0"))
+    model = DQN.load(native_str("mountaincar_model.pkl"), env)
 
     while True:
         obs, done = env.reset(), False

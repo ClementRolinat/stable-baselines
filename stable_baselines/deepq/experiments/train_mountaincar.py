@@ -4,6 +4,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import dict
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import argparse
 
@@ -18,11 +19,11 @@ def main(args):
 
     :param args: (ArgumentParser) the input arguments
     """
-    env = gym.make("MountainCar-v0")
+    env = gym.make(native_str("MountainCar-v0"))
 
     # using layer norm policy here is important for parameter space noise!
     model = DQN(
-        policy="LnMlpPolicy",
+        policy=native_str("LnMlpPolicy"),
         env=env,
         learning_rate=1e-3,
         buffer_size=50000,
@@ -34,7 +35,7 @@ def main(args):
     model.learn(total_timesteps=args.max_timesteps)
 
     print("Saving model to mountaincar_model.pkl")
-    model.save("mountaincar_model.pkl")
+    model.save(native_str("mountaincar_model.pkl"))
 
 
 if __name__ == '__main__':

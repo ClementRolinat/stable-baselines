@@ -68,6 +68,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import zip
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import tensorflow as tf
 from gym.spaces import MultiDiscrete
@@ -105,7 +106,7 @@ def absolute_scope_name(relative_scope_name):
 
     :return: (str) the absolute name of the scope
     """
-    return scope_name() + "/" + relative_scope_name
+    return scope_name() + native_str("/") + relative_scope_name
 
 
 def default_param_noise_filter(var):
@@ -204,7 +205,7 @@ def build_act_with_param_noise(q_func, ob_space, ac_space, stochastic_ph, update
     obs_phs = (policy.obs_ph, policy.processed_obs)
 
     # Perturbable Q used for the actual rollout.
-    with tf.variable_scope("perturbed_model", reuse=False):
+    with tf.variable_scope(native_str("perturbed_model"), reuse=False):
         perturbable_policy = q_func(sess, ob_space, ac_space, 1, 1, None, obs_phs=obs_phs)
 
     def perturb_vars(original_scope, perturbed_scope):
@@ -238,9 +239,9 @@ def build_act_with_param_noise(q_func, ob_space, ac_space, stochastic_ph, update
     # Set up functionality to re-compute `param_noise_scale`. This perturbs yet another copy
     # of the network and measures the effect of that perturbation in action space. If the perturbation
     # is too big, reduce scale of perturbation, otherwise increase.
-    with tf.variable_scope("adaptive_model", reuse=False):
+    with tf.variable_scope(native_str("adaptive_model"), reuse=False):
         adaptive_policy = q_func(sess, ob_space, ac_space, 1, 1, None, obs_phs=obs_phs)
-    perturb_for_adaption = perturb_vars(original_scope="model", perturbed_scope="adaptive_model/model")
+    perturb_for_adaption = perturb_vars(original_scope=native_str("model"), perturbed_scope=native_str("adaptive_model/model"))
     kl_loss = tf.reduce_sum(
         tf.nn.softmax(policy.q_values) *
         (tf.log(tf.nn.softmax(policy.q_values)) - tf.log(tf.nn.softmax(adaptive_policy.q_values))),
@@ -281,7 +282,7 @@ def build_act_with_param_noise(q_func, ob_space, ac_space, stochastic_ph, update
     update_eps_expr = eps.assign(tf.cond(update_eps_ph >= 0, lambda: update_eps_ph, lambda: eps))
     updates = [
         update_eps_expr,
-        tf.cond(reset_ph, lambda: perturb_vars(original_scope="model", perturbed_scope="perturbed_model/model"),
+        tf.cond(reset_ph, lambda: perturb_vars(original_scope=native_str("model"), perturbed_scope=native_str("perturbed_model/model")),
                 lambda: tf.group(*[])),
         tf.cond(update_param_noise_scale_ph, lambda: update_scale(), lambda: tf.Variable(0., trainable=False)),
         update_param_noise_thres_expr,
@@ -327,7 +328,7 @@ def build_act_with_param_noise(q_func, ob_space, ac_space, stochastic_ph, update
 
 
 def build_train(q_func, ob_space, ac_space, optimizer, sess, grad_norm_clipping=None,
-                gamma=1.0, double_q=True, scope="deepq", reuse=None,
+                gamma=1.0, double_q=True, scope=native_str("deepq"), reuse=None,
                 param_noise=False, param_noise_filter_func=None, full_tensorboard_log=False):
     """
     Creates the train function:
@@ -362,7 +363,7 @@ def build_train(q_func, ob_space, ac_space, optimizer, sess, grad_norm_clipping=
         step_model: (DQNPolicy) Policy for evaluation
     """
     n_actions = ac_space.nvec if isinstance(ac_space, MultiDiscrete) else ac_space.n
-    with tf.variable_scope("input", reuse=reuse):
+    with tf.variable_scope(native_str("input"), reuse=reuse):
         stochastic_ph = tf.placeholder(tf.bool, (), name="stochastic")
         update_eps_ph = tf.placeholder(tf.float32, (), name="update_eps")
 
@@ -374,26 +375,26 @@ def build_train(q_func, ob_space, ac_space, optimizer, sess, grad_norm_clipping=
             act_f, obs_phs = build_act(q_func, ob_space, ac_space, stochastic_ph, update_eps_ph, sess)
 
         # q network evaluation
-        with tf.variable_scope("step_model", reuse=True, custom_getter=tf_util.outer_scope_getter("step_model")):
+        with tf.variable_scope(native_str("step_model"), reuse=True, custom_getter=tf_util.outer_scope_getter(native_str("step_model"))):
             step_model = q_func(sess, ob_space, ac_space, 1, 1, None, reuse=True, obs_phs=obs_phs)
-        q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=tf.get_variable_scope().name + "/model")
+        q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=tf.get_variable_scope().name + native_str("/model"))
         # target q network evaluation
 
-        with tf.variable_scope("target_q_func", reuse=False):
+        with tf.variable_scope(native_str("target_q_func"), reuse=False):
             target_policy = q_func(sess, ob_space, ac_space, 1, 1, None, reuse=False)
         target_q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES,
-                                               scope=tf.get_variable_scope().name + "/target_q_func")
+                                               scope=tf.get_variable_scope().name + native_str("/target_q_func"))
 
         # compute estimate of best possible value starting from state at t + 1
         double_q_values = None
         double_obs_ph = target_policy.obs_ph
         if double_q:
-            with tf.variable_scope("double_q", reuse=True, custom_getter=tf_util.outer_scope_getter("double_q")):
+            with tf.variable_scope(native_str("double_q"), reuse=True, custom_getter=tf_util.outer_scope_getter(native_str("double_q"))):
                 double_policy = q_func(sess, ob_space, ac_space, 1, 1, None, reuse=True)
                 double_q_values = double_policy.q_values
                 double_obs_ph = double_policy.obs_ph
 
-    with tf.variable_scope("loss", reuse=reuse):
+    with tf.variable_scope(native_str("loss"), reuse=reuse):
         # set up placeholders
         act_t_ph = tf.placeholder(tf.int32, [None], name="action")
         rew_t_ph = tf.placeholder(tf.float32, [None], name="reward")
@@ -439,7 +440,7 @@ def build_train(q_func, ob_space, ac_space, optimizer, sess, grad_norm_clipping=
                 if grad is not None:
                     gradients[i] = (tf.clip_by_norm(grad, grad_norm_clipping), var)
 
-    with tf.variable_scope("input_info", reuse=False):
+    with tf.variable_scope(native_str("input_info"), reuse=False):
         tf.summary.scalar('rewards', tf.reduce_mean(rew_t_ph))
         tf.summary.scalar('importance_weights', tf.reduce_mean(importance_weights_ph))
 
