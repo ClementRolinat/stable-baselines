@@ -5,6 +5,7 @@ from __future__ import absolute_import
 from builtins import range
 from builtins import open
 from builtins import round
+from builtins import str
 from future import standard_library
 standard_library.install_aliases()
 __all__ = ['Monitor', 'get_monitor_files', 'load_results']

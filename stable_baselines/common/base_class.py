@@ -260,7 +260,7 @@ class BaseRLModel(with_metaclass(ABCMeta, object)):
                 cloudpickle.dump((data, params), file_)
         else:
             # Here save_path is a file-like object, not a path
-            cloudpickle.dump((data, params), save_path)
+            cloudpickle.dump((data, params), save_path, protocol=2)
 
     @staticmethod
     def _load_from_file(load_path):

@@ -19,7 +19,7 @@ import stable_baselines.ppo2.run_atari as ppo2_atari
 import stable_baselines.trpo_mpi.run_atari as trpo_atari
 
 
-ENV_ID = native_str('BreakoutNoFrameskip-v4')
+ENV_ID = 'BreakoutNoFrameskip-v4'
 SEED = 3
 NUM_TIMESTEPS = 500
 NUM_CPU = 2
