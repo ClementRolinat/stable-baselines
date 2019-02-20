@@ -6,6 +6,7 @@ from builtins import super
 from builtins import range
 from builtins import dict
 from future import standard_library
+from future.utils import native_str
 standard_library.install_aliases()
 import os
 
@@ -78,7 +79,7 @@ def test_custom_policy(model_name):
 
     try:
         model_class, policy, _ = MODEL_DICT[model_name]
-        env = 'MountainCarContinuous-v0' if model_name in ['ddpg', 'sac'] else 'CartPole-v1'
+        env = native_str('MountainCarContinuous-v0') if model_name in ['ddpg', 'sac'] else native_str('CartPole-v1')
 
         # create and train
         model = model_class(policy, env)
@@ -94,14 +95,14 @@ def test_custom_policy(model_name):
                 model.action_probability(obs)
             obs, _, _, _ = env.step(action)
         # saving
-        model.save("./test_model")
+        model.save(native_str("./test_model"))
         del model, env
         # loading
-        _ = model_class.load("./test_model", policy=policy)
+        _ = model_class.load(native_str("./test_model"), policy=policy)
 
     finally:
-        if os.path.exists("./test_model"):
-            os.remove("./test_model")
+        if os.path.exists(native_str("./test_model")):
+            os.remove(native_str("./test_model"))
 
 
 @pytest.mark.parametrize("model_name", MODEL_DICT.keys())
@@ -113,7 +114,7 @@ def test_custom_policy_kwargs(model_name):
 
     try:
         model_class, policy, policy_kwargs = MODEL_DICT[model_name]
-        env = 'MountainCarContinuous-v0' if model_name in ['ddpg', 'sac'] else 'CartPole-v1'
+        env = native_str('MountainCarContinuous-v0') if model_name in ['ddpg', 'sac'] else native_str('CartPole-v1')
 
         # Should raise an error when a wrong keyword is passed
         with pytest.raises(ValueError):
@@ -123,7 +124,7 @@ def test_custom_policy_kwargs(model_name):
         model = model_class(policy, env, policy_kwargs=policy_kwargs)
         model.learn(total_timesteps=100, seed=0)
 
-        model.save("./test_model")
+        model.save(native_str("./test_model"))
         del model
 
         # loading
@@ -131,19 +132,19 @@ def test_custom_policy_kwargs(model_name):
         env = DummyVecEnv([lambda: gym.make(env)])
 
         # Load with specifying policy_kwargs
-        model = model_class.load("./test_model", policy=policy, env=env, policy_kwargs=policy_kwargs)
+        model = model_class.load(native_str("./test_model"), policy=policy, env=env, policy_kwargs=policy_kwargs)
         model.learn(total_timesteps=100, seed=0)
         del model
 
         # Load without specifying policy_kwargs
-        model = model_class.load("./test_model", policy=policy, env=env)
+        model = model_class.load(native_str("./test_model"), policy=policy, env=env)
         model.learn(total_timesteps=100, seed=0)
         del model
 
         # Load with different wrong policy_kwargs
         with pytest.raises(ValueError):
-            _ = model_class.load("./test_model", policy=policy, env=env, policy_kwargs=dict(wrong="kwargs"))
+            _ = model_class.load(native_str("./test_model"), policy=policy, env=env, policy_kwargs=dict(wrong="kwargs"))
 
     finally:
-        if os.path.exists("./test_model"):
-            os.remove("./test_model")
+        if os.path.exists(native_str("./test_model")):
+            os.remove(native_str("./test_model"))
