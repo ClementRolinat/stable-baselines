@@ -69,11 +69,12 @@ from __future__ import absolute_import
 from builtins import zip
 from future import standard_library
 from future.utils import native_str
-standard_library.install_aliases()
+
 import tensorflow as tf
 from gym.spaces import MultiDiscrete
 
 from stable_baselines.common import tf_util
+standard_library.install_aliases()
 
 
 def scope_vars(scope, trainable_only=False):
@@ -241,7 +242,8 @@ def build_act_with_param_noise(q_func, ob_space, ac_space, stochastic_ph, update
     # is too big, reduce scale of perturbation, otherwise increase.
     with tf.variable_scope(native_str("adaptive_model"), reuse=False):
         adaptive_policy = q_func(sess, ob_space, ac_space, 1, 1, None, obs_phs=obs_phs)
-    perturb_for_adaption = perturb_vars(original_scope=native_str("model"), perturbed_scope=native_str("adaptive_model/model"))
+    perturb_for_adaption = perturb_vars(original_scope=native_str("model"),
+                                        perturbed_scope=native_str("adaptive_model/model"))
     kl_loss = tf.reduce_sum(
         tf.nn.softmax(policy.q_values) *
         (tf.log(tf.nn.softmax(policy.q_values)) - tf.log(tf.nn.softmax(adaptive_policy.q_values))),
@@ -282,7 +284,8 @@ def build_act_with_param_noise(q_func, ob_space, ac_space, stochastic_ph, update
     update_eps_expr = eps.assign(tf.cond(update_eps_ph >= 0, lambda: update_eps_ph, lambda: eps))
     updates = [
         update_eps_expr,
-        tf.cond(reset_ph, lambda: perturb_vars(original_scope=native_str("model"), perturbed_scope=native_str("perturbed_model/model")),
+        tf.cond(reset_ph, lambda: perturb_vars(original_scope=native_str("model"),
+                                               perturbed_scope=native_str("perturbed_model/model")),
                 lambda: tf.group(*[])),
         tf.cond(update_param_noise_scale_ph, lambda: update_scale(), lambda: tf.Variable(0., trainable=False)),
         update_param_noise_thres_expr,
@@ -375,9 +378,11 @@ def build_train(q_func, ob_space, ac_space, optimizer, sess, grad_norm_clipping=
             act_f, obs_phs = build_act(q_func, ob_space, ac_space, stochastic_ph, update_eps_ph, sess)
 
         # q network evaluation
-        with tf.variable_scope(native_str("step_model"), reuse=True, custom_getter=tf_util.outer_scope_getter(native_str("step_model"))):
+        with tf.variable_scope(native_str("step_model"), reuse=True,
+                               custom_getter=tf_util.outer_scope_getter(native_str("step_model"))):
             step_model = q_func(sess, ob_space, ac_space, 1, 1, None, reuse=True, obs_phs=obs_phs)
-        q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES, scope=tf.get_variable_scope().name + native_str("/model"))
+        q_func_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES,
+                                        scope=tf.get_variable_scope().name + native_str("/model"))
         # target q network evaluation
 
         with tf.variable_scope(native_str("target_q_func"), reuse=False):
@@ -389,7 +394,8 @@ def build_train(q_func, ob_space, ac_space, optimizer, sess, grad_norm_clipping=
         double_q_values = None
         double_obs_ph = target_policy.obs_ph
         if double_q:
-            with tf.variable_scope(native_str("double_q"), reuse=True, custom_getter=tf_util.outer_scope_getter(native_str("double_q"))):
+            with tf.variable_scope(native_str("double_q"), reuse=True,
+                                   custom_getter=tf_util.outer_scope_getter(native_str("double_q"))):
                 double_policy = q_func(sess, ob_space, ac_space, 1, 1, None, reuse=True)
                 double_q_values = double_policy.q_values
                 double_obs_ph = double_policy.obs_ph

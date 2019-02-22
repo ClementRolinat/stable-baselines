@@ -5,13 +5,14 @@ from __future__ import absolute_import
 from builtins import super
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
 import tensorflow.contrib.layers as tf_layers
 import numpy as np
 from gym.spaces import Discrete
 
 from stable_baselines.common.policies import BasePolicy, nature_cnn, register_policy
+standard_library.install_aliases()
 
 
 class DQNPolicy(BasePolicy):

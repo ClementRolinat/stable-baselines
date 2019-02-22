@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 from mpi4py import MPI
 
 from stable_baselines.common.cmd_util import make_mujoco_env, mujoco_arg_parser
@@ -13,6 +13,7 @@ from stable_baselines.common.policies import MlpPolicy
 from stable_baselines import logger
 from stable_baselines.trpo_mpi import TRPO
 import stable_baselines.common.tf_util as tf_util
+standard_library.install_aliases()
 
 
 def train(env_id, num_timesteps, seed):

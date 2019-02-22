@@ -4,13 +4,14 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import super
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
 import numpy as np
 import gym
 
 from stable_baselines.common import BaseRLModel, SetVerbosity
 from stable_baselines.common.policies import LstmPolicy, ActorCriticPolicy
+standard_library.install_aliases()
 
 
 def make_sample_her_transitions(replay_strategy, replay_k, reward_fun):

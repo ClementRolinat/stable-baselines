@@ -8,7 +8,7 @@ from __future__ import absolute_import
 from builtins import range
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 import argparse
 import tempfile
@@ -25,6 +25,7 @@ from stable_baselines.common.misc_util import boolean_flag
 from stable_baselines.common.mpi_adam import MpiAdam
 from stable_baselines.gail.run_mujoco import runner
 from stable_baselines.gail.dataset.mujocodset import MujocoDset
+standard_library.install_aliases()
 
 
 def argsparser():

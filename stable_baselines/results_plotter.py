@@ -4,12 +4,13 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
 import matplotlib
 import matplotlib.pyplot as plt
 
 from stable_baselines.bench.monitor import load_results
+standard_library.install_aliases()
 
 # matplotlib.use('TkAgg')  # Can change to 'Agg' for non-interactive mode
 plt.rcParams['svg.fonttype'] = 'none'

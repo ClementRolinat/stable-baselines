@@ -6,12 +6,13 @@ from builtins import super
 from builtins import str
 from future import standard_library
 from future.utils import native_str
-standard_library.install_aliases()
+
 import tensorflow as tf
 import numpy as np
 from gym.spaces import Box
 
 from stable_baselines.common.policies import BasePolicy, nature_cnn, register_policy
+standard_library.install_aliases()
 
 
 class DDPGPolicy(BasePolicy):

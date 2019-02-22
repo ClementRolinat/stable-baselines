@@ -3,5 +3,5 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
 from stable_baselines.gail.model import GAIL
+standard_library.install_aliases()

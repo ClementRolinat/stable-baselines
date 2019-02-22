@@ -7,7 +7,7 @@ from builtins import dict
 from builtins import str
 from future import standard_library
 from future.utils import with_metaclass
-standard_library.install_aliases()
+
 import warnings
 from itertools import zip_longest
 from abc import ABCMeta
@@ -20,6 +20,7 @@ from stable_baselines.a2c.utils import conv, linear, conv_to_fc, batch_to_seq, s
 from stable_baselines.common.distributions import make_proba_dist_type, CategoricalProbabilityDistribution, \
     MultiCategoricalProbabilityDistribution, DiagGaussianProbabilityDistribution, BernoulliProbabilityDistribution
 from stable_baselines.common.input import observation_input
+standard_library.install_aliases()
 
 
 def nature_cnn(scaled_images, **kwargs):

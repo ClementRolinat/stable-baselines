@@ -3,10 +3,11 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
 import tensorflow as tf
 from gym.spaces import Discrete, Box, MultiBinary, MultiDiscrete
+standard_library.install_aliases()
 
 
 def observation_input(ob_space, batch_size=None, name='Ob', scale=False):

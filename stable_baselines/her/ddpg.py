@@ -6,7 +6,7 @@ from builtins import map
 from builtins import dict
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 from collections import OrderedDict
 
 import numpy as np
@@ -18,6 +18,7 @@ from stable_baselines.her.util import import_function, flatten_grads, transition
 from stable_baselines.her.normalizer import Normalizer
 from stable_baselines.her.replay_buffer import ReplayBuffer
 from stable_baselines.common.mpi_adam import MpiAdam
+standard_library.install_aliases()
 
 
 def dims_to_shapes(input_dims):

@@ -4,8 +4,9 @@ from __future__ import unicode_literals
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
+standard_library.install_aliases()
 
 
 def conjugate_gradient(f_ax, b_vec, cg_iters=10, callback=None, verbose=False, residual_tol=1e-10):

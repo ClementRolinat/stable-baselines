@@ -7,7 +7,7 @@ from builtins import zip
 from builtins import object
 from future import standard_library
 from future.utils import native_str
-standard_library.install_aliases()
+
 import re
 from functools import reduce
 
@@ -15,6 +15,7 @@ import tensorflow as tf
 import numpy as np
 
 from stable_baselines.acktr.kfac_utils import detect_min_val, factor_reshape, gmatmul
+standard_library.install_aliases()
 
 KFAC_OPS = ['MatMul', 'Conv2D', 'BiasAdd']
 KFAC_DEBUG = False

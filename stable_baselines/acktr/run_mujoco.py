@@ -5,7 +5,7 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
 
 from stable_baselines import logger
@@ -13,6 +13,7 @@ from stable_baselines.common.cmd_util import make_mujoco_env, mujoco_arg_parser
 from stable_baselines.acktr.acktr_cont import learn
 from stable_baselines.acktr.policies import GaussianMlpPolicy
 from stable_baselines.acktr.value_functions import NeuralNetValueFunction
+standard_library.install_aliases()
 
 
 def train(env_id, num_timesteps, seed):

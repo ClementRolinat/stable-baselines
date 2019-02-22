@@ -3,11 +3,12 @@ from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 from mpi4py import MPI
 import numpy as np
 
 from stable_baselines.common import zipsame
+standard_library.install_aliases()
 
 
 def mpi_mean(arr, axis=0, comm=None, keepdims=False):

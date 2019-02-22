@@ -4,11 +4,12 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import super
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
 
 from gym import Env
 from gym.spaces import Discrete, MultiDiscrete, MultiBinary, Box
+standard_library.install_aliases()
 
 
 class IdentityEnv(Env):

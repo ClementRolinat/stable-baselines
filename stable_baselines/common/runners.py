@@ -5,17 +5,14 @@ from __future__ import absolute_import
 from builtins import range
 from future import standard_library
 from future.utils import with_metaclass
-standard_library.install_aliases()
+
 import numpy as np
 from abc import ABCMeta, abstractmethod
+standard_library.install_aliases()
 
 
 class AbstractEnvRunner(with_metaclass(ABCMeta, object)):
-    def __init__(self, **_3to2kwargs):
-        print(_3to2kwargs)
-        n_steps = _3to2kwargs['n_steps']; del _3to2kwargs['n_steps']
-        model = _3to2kwargs['model']; del _3to2kwargs['model']
-        env = _3to2kwargs['env']; del _3to2kwargs['env']
+    def __init__(self, env=None, model=None, n_steps=None):
         """
         A runner to learn the policy of an environment for a model
 
@@ -23,6 +20,8 @@ class AbstractEnvRunner(with_metaclass(ABCMeta, object)):
         :param model: (Model) The model to learn
         :param n_steps: (int) The number of steps to run for each environment
         """
+        if env is None or model is None or n_steps is None:
+            raise ValueError('You must give env, model and n_steps arguments')
         self.env = env
         self.model = model
         n_env = env.num_envs

@@ -8,10 +8,10 @@ from builtins import int
 from builtins import range
 from builtins import zip
 from builtins import map
-from future.utils import with_metaclass, native_str
+from future.utils import with_metaclass
 from future import standard_library
-standard_library.install_aliases()
 from builtins import object
+
 from abc import ABCMeta, abstractmethod
 import os
 import glob
@@ -26,6 +26,7 @@ from stable_baselines.common import set_global_seeds
 from stable_baselines.common.policies import LstmPolicy, get_policy_from_name, ActorCriticPolicy
 from stable_baselines.common.vec_env import VecEnvWrapper, VecEnv, DummyVecEnv
 from stable_baselines import logger
+standard_library.install_aliases()
 
 
 class BaseRLModel(with_metaclass(ABCMeta, object)):
@@ -494,11 +495,9 @@ class OffPolicyRLModel(BaseRLModel):
     :param policy_base: (BasePolicy) the base policy used by this method
     """
 
-    def __init__(self, policy, env, replay_buffer, verbose=0, **_3to2kwargs):
-        if 'policy_kwargs' in _3to2kwargs: policy_kwargs = _3to2kwargs['policy_kwargs']; del _3to2kwargs['policy_kwargs']
-        else: policy_kwargs = None
-        policy_base = _3to2kwargs['policy_base']; del _3to2kwargs['policy_base']
-        requires_vec_env = _3to2kwargs['requires_vec_env']; del _3to2kwargs['requires_vec_env']
+    def __init__(self, policy, env, replay_buffer, verbose=0, requires_vec_env=None, policy_base=None, policy_kwargs=None):
+        if requires_vec_env is None or policy_base is None:
+            raise ValueError('You need to give requires_vec_env and policy_base arguments')
         super(OffPolicyRLModel, self).__init__(policy, env, verbose=verbose, requires_vec_env=requires_vec_env,
                                                policy_base=policy_base, policy_kwargs=policy_kwargs)
 

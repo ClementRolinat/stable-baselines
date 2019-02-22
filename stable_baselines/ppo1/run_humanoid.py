@@ -5,7 +5,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 
 import gym
@@ -15,6 +15,7 @@ from stable_baselines.common.cmd_util import make_mujoco_env, mujoco_arg_parser
 from stable_baselines.common import tf_util
 from stable_baselines.common.policies import MlpPolicy
 from stable_baselines import logger
+standard_library.install_aliases()
 
 
 def train(num_timesteps, seed, model_path=None):

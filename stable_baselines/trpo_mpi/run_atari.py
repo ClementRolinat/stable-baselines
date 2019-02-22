@@ -6,7 +6,7 @@ from __future__ import absolute_import
 from builtins import int
 from builtins import str
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 
 from mpi4py import MPI
@@ -18,6 +18,7 @@ from stable_baselines.common.cmd_util import atari_arg_parser
 from stable_baselines.common.policies import CnnPolicy
 # from stable_baselines.trpo_mpi.nosharing_cnn_policy import CnnPolicy
 from stable_baselines.trpo_mpi import TRPO
+standard_library.install_aliases()
 
 
 def train(env_id, num_timesteps, seed):

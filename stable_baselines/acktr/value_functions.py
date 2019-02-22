@@ -4,7 +4,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
 import tensorflow as tf
 
@@ -13,6 +13,7 @@ import stable_baselines.common as common
 from stable_baselines.common import tf_util
 from stable_baselines.acktr import kfac
 from stable_baselines.acktr.utils import dense
+standard_library.install_aliases()
 
 
 class NeuralNetValueFunction(object):

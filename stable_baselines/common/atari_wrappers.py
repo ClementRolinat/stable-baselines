@@ -4,7 +4,7 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 from collections import deque
 
 import numpy as np
@@ -12,6 +12,7 @@ import gym
 from gym import spaces
 import cv2
 cv2.ocl.setUseOpenCL(False)
+standard_library.install_aliases()
 
 
 class NoopResetEnv(gym.Wrapper):

@@ -8,12 +8,13 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
 import numpy as np
 
 from stable_baselines.common.mpi_running_mean_std import RunningMeanStd
 from stable_baselines.common import tf_util as tf_util
+standard_library.install_aliases()
 
 
 def logsigmoid(input_tensor):

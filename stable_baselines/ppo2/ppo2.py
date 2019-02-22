@@ -8,7 +8,7 @@ from builtins import int
 from builtins import range
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 import time
 import sys
 import multiprocessing
@@ -23,6 +23,7 @@ from stable_baselines.common import explained_variance, ActorCriticRLModel, tf_u
 from stable_baselines.common.runners import AbstractEnvRunner
 from stable_baselines.common.policies import LstmPolicy, ActorCriticPolicy
 from stable_baselines.a2c.utils import total_episode_reward_logger
+standard_library.install_aliases()
 
 
 class PPO2(ActorCriticRLModel):
@@ -389,12 +390,7 @@ class PPO2(ActorCriticRLModel):
 
 
 class Runner(AbstractEnvRunner):
-    def __init__(self, **_3to2kwargs):
-        lam = _3to2kwargs['lam']; del _3to2kwargs['lam']
-        gamma = _3to2kwargs['gamma']; del _3to2kwargs['gamma']
-        n_steps = _3to2kwargs['n_steps']; del _3to2kwargs['n_steps']
-        model = _3to2kwargs['model']; del _3to2kwargs['model']
-        env = _3to2kwargs['env']; del _3to2kwargs['env']
+    def __init__(self, env=None, model=None, n_steps=None, gamma=None, lam=None):
         """
         A runner to learn the policy of an environment for a model
 
@@ -404,6 +400,8 @@ class Runner(AbstractEnvRunner):
         :param gamma: (float) Discount factor
         :param lam: (float) Factor for trade-off of bias vs variance for Generalized Advantage Estimator
         """
+        if env is None or model is None or n_steps is None or gamma is None or lam is None:
+            raise ValueError('You need to give env, model, n_steps, gamma and lam arguments')
         super().__init__(env=env, model=model, n_steps=n_steps)
         self.lam = lam
         self.gamma = gamma

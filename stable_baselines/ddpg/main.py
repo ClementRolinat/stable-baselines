@@ -5,7 +5,7 @@ from __future__ import absolute_import
 from builtins import int
 from builtins import str
 from future import standard_library
-standard_library.install_aliases()
+
 import argparse
 import time
 import os
@@ -21,6 +21,7 @@ from stable_baselines.ddpg.policies import MlpPolicy, LnMlpPolicy
 from stable_baselines.ddpg import DDPG
 from stable_baselines.ddpg.memory import Memory
 from stable_baselines.ddpg.noise import AdaptiveParamNoiseSpec, OrnsteinUhlenbeckActionNoise, NormalActionNoise
+standard_library.install_aliases()
 
 
 def run(env_id, seed, noise_type, layer_norm, evaluation, **kwargs):

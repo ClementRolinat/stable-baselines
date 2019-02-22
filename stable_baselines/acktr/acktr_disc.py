@@ -5,13 +5,12 @@ from __future__ import division
 from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
-
 from builtins import super
 from builtins import range
 from builtins import int
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 import time
 
 import tensorflow as tf
@@ -25,6 +24,7 @@ from stable_baselines.a2c.utils import Scheduler, find_trainable_variables, calc
     total_episode_reward_logger
 from stable_baselines.acktr import kfac
 from stable_baselines.common.policies import LstmPolicy, ActorCriticPolicy
+standard_library.install_aliases()
 
 
 class ACKTR(ActorCriticRLModel):

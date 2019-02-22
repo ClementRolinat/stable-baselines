@@ -7,7 +7,6 @@ from builtins import open
 from builtins import dict
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
 from builtins import object
 from collections import deque
 import pickle
@@ -16,6 +15,7 @@ import numpy as np
 from mujoco_py import MujocoException
 
 from stable_baselines.her.util import convert_episode_to_batch_major
+standard_library.install_aliases()
 
 
 class RolloutWorker(object):

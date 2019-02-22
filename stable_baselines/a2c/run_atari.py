@@ -6,12 +6,13 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 from stable_baselines import logger
 from stable_baselines.common.cmd_util import make_atari_env, atari_arg_parser
 from stable_baselines.common.vec_env.vec_frame_stack import VecFrameStack
 from stable_baselines.a2c import A2C
 from stable_baselines.common.policies import CnnPolicy, CnnLstmPolicy, CnnLnLstmPolicy
+standard_library.install_aliases()
 
 
 def train(env_id, num_timesteps, seed, policy, lr_schedule, num_env):

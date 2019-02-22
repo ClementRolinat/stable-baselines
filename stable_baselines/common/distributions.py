@@ -5,13 +5,14 @@ from __future__ import absolute_import
 from builtins import map
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
 import tensorflow as tf
 from tensorflow.python.ops import math_ops
 from gym import spaces
 
 from stable_baselines.a2c.utils import linear
+standard_library.install_aliases()
 
 
 class ProbabilityDistribution(object):

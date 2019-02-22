@@ -6,9 +6,11 @@ from builtins import next
 from builtins import filter
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 import re
 import os
+
+standard_library.install_aliases()
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 

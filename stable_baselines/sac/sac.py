@@ -9,7 +9,7 @@ from builtins import int
 from builtins import zip
 from future import standard_library
 from future.utils import native_str
-standard_library.install_aliases()
+
 import sys
 import time
 import multiprocessing
@@ -26,6 +26,7 @@ from stable_baselines.deepq.replay_buffer import ReplayBuffer
 from stable_baselines.ppo2.ppo2 import safe_mean, get_schedule_fn
 from stable_baselines.sac.policies import SACPolicy
 from stable_baselines import logger
+standard_library.install_aliases()
 
 
 def get_vars(scope):

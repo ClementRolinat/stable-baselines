@@ -4,11 +4,12 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import super
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
 
 from stable_baselines.common.input import observation_input
 from stable_baselines.common.distributions import make_proba_dist_type
+standard_library.install_aliases()
 
 
 class BasePolicy(object):

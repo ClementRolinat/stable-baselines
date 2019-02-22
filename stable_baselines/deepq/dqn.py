@@ -8,7 +8,7 @@ from builtins import range
 from builtins import round
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 from functools import partial
 
 import tensorflow as tf
@@ -23,6 +23,7 @@ from stable_baselines.deepq.replay_buffer import ReplayBuffer, PrioritizedReplay
 from stable_baselines.deepq.policies import DQNPolicy
 from stable_baselines.deepq.build_graph import build_train
 from stable_baselines.a2c.utils import find_trainable_variables, total_episode_reward_logger
+standard_library.install_aliases()
 
 
 class DQN(OffPolicyRLModel):

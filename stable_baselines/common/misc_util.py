@@ -7,7 +7,7 @@ from builtins import open
 from builtins import range
 from builtins import str
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 import pickle
 import random
@@ -17,6 +17,7 @@ import zipfile
 import gym
 import numpy as np
 import tensorflow as tf
+standard_library.install_aliases()
 
 
 def zipsame(*seqs):

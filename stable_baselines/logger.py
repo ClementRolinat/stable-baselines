@@ -10,8 +10,8 @@ from builtins import str
 from builtins import dict
 from future import standard_library
 from future.utils import native_str
-standard_library.install_aliases()
 from builtins import object
+
 import os
 import sys
 import shutil
@@ -21,6 +21,7 @@ import datetime
 import tempfile
 import warnings
 from collections import defaultdict
+standard_library.install_aliases()
 
 DEBUG = 10
 INFO = 20
@@ -315,9 +316,7 @@ def getkvs():
     return Logger.CURRENT.name2val
 
 
-def log(*args, **_3to2kwargs):
-    if 'level' in _3to2kwargs: level = _3to2kwargs['level']; del _3to2kwargs['level']
-    else: level = INFO
+def log(*args, **kwargs):
     """
     Write the sequence of args, with no separators,
     to the console and output files (if you've configured an output file).
@@ -328,6 +327,11 @@ def log(*args, **_3to2kwargs):
     :param args: (list) log the arguments
     :param level: (int) the logging level (can be DEBUG=10, INFO=20, WARN=30, ERROR=40, DISABLED=50)
     """
+    if 'level' in kwargs:
+        level = kwargs['level']
+        del kwargs['level']
+    else:
+        level = INFO
     Logger.CURRENT.log(*args, level=level)
 
 
@@ -505,9 +509,7 @@ class Logger(object):
         self.name2val.clear()
         self.name2cnt.clear()
 
-    def log(self, *args, **_3to2kwargs):
-        if 'level' in _3to2kwargs: level = _3to2kwargs['level']; del _3to2kwargs['level']
-        else: level = INFO
+    def log(self, *args, **kwargs):
         """
         Write the sequence of args, with no separators,
         to the console and output files (if you've configured an output file).
@@ -518,6 +520,11 @@ class Logger(object):
         :param args: (list) log the arguments
         :param level: (int) the logging level (can be DEBUG=10, INFO=20, WARN=30, ERROR=40, DISABLED=50)
         """
+        if 'level' in kwargs:
+            level = kwargs['level']
+            del kwargs['level']
+        else:
+            level = INFO
         if self.level <= level:
             self._do_log(args)
 
@@ -576,7 +583,6 @@ def configure(folder=None, format_strs=None):
     if folder is None:
         folder = os.path.join(tempfile.gettempdir(), datetime.datetime.now().strftime("openai-%Y-%m-%d-%H-%M-%S-%f"))
     folder = native_str(folder)
-    format_str = native_str(format_strs)
     assert isinstance(folder, basestring)
     if os.access(folder, os.F_OK) == False:
         os.makedirs(folder)
@@ -593,7 +599,7 @@ def configure(folder=None, format_strs=None):
         else:
             format_strs = os.getenv('OPENAI_LOG_FORMAT_MPI', 'log').split(',')
     format_strs = filter(None, format_strs)
-    output_formats = [make_output_format(f, folder, log_suffix) for f in format_strs]
+    output_formats = [make_output_format(native_str(f), folder, log_suffix) for f in format_strs]
 
     Logger.CURRENT = Logger(folder=folder, output_formats=output_formats)
     log('Logging to %s' % folder)

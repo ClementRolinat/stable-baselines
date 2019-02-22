@@ -5,15 +5,15 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
-
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 from builtins import object
 import tensorflow as tf
 import numpy as np
 
 import stable_baselines.common.tf_util as tf_util
+standard_library.install_aliases()
 
 
 class Stats(object):

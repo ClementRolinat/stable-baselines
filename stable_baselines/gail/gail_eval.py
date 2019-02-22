@@ -6,10 +6,9 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import absolute_import
-
 from builtins import str
 from future import standard_library
-standard_library.install_aliases()
+
 import argparse
 import os
 import glob
@@ -23,6 +22,7 @@ from stable_baselines.gail import run_mujoco, mlp_policy
 from stable_baselines.common import set_global_seeds, tf_util
 from stable_baselines.common.misc_util import boolean_flag
 from stable_baselines.gail.dataset.mujocodset import MujocoDset
+standard_library.install_aliases()
 
 
 plt.style.use('ggplot')

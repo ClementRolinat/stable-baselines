@@ -10,7 +10,7 @@ from __future__ import absolute_import
 from builtins import range
 from builtins import super
 from future import standard_library
-standard_library.install_aliases()
+
 import gym
 import tensorflow as tf
 
@@ -18,18 +18,13 @@ import stable_baselines.common.tf_util as tf_util
 from stable_baselines.acktr.utils import dense
 from stable_baselines.common.mpi_running_mean_std import RunningMeanStd
 from stable_baselines.ppo1.mlp_policy import BasePolicy
+standard_library.install_aliases()
 
 
 class MlpPolicy(BasePolicy):
     recurrent = False
 
     def __init__(self, name, *args, **kwargs):
-        if 'placeholders' in kwargs: placeholders = kwargs['placeholders']; del kwargs['placeholders']
-        else: placeholders = None
-        if 'reuse' in kwargs: reuse = kwargs['reuse']; del kwargs['reuse']
-        else: reuse = False
-        if 'sess' in kwargs: sess = kwargs['sess']; del kwargs['sess']
-        else: sess = None
         """
         MLP policy for Gail
 
@@ -43,6 +38,20 @@ class MlpPolicy(BasePolicy):
         :param placeholders: (dict) To feed existing placeholders if needed
         :param gaussian_fixed_var: (bool) fix the gaussian variance
         """
+        if 'placeholders' in kwargs:
+            placeholders = kwargs['placeholders']
+            del kwargs['placeholders']
+        else:
+            placeholders = None
+        if 'reuse' in kwargs:
+            reuse = kwargs['reuse']
+            del kwargs['reuse']
+        else: reuse = False
+        if 'sess' in kwargs:
+            sess = kwargs['sess']
+            del kwargs['sess']
+        else:
+            sess = None
         super(MlpPolicy, self).__init__(placeholders=placeholders)
         self.sess = sess
         with tf.variable_scope(name):

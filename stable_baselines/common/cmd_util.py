@@ -5,12 +5,11 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
-
 from builtins import int
 from builtins import range
 from builtins import str
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 
 from mpi4py import MPI
@@ -22,6 +21,7 @@ from stable_baselines.bench import Monitor
 from stable_baselines.common import set_global_seeds
 from stable_baselines.common.atari_wrappers import make_atari, wrap_deepmind
 from stable_baselines.common.vec_env.subproc_vec_env import SubprocVecEnv
+standard_library.install_aliases()
 
 
 def make_atari_env(env_id, num_env, seed, wrapper_kwargs=None, start_index=0, allow_early_resets=True):

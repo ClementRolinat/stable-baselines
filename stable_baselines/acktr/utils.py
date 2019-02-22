@@ -3,8 +3,9 @@ from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
+standard_library.install_aliases()
 
 
 def dense(input_tensor, size, name, weight_init=None, bias_init=0, weight_loss_dict=None, reuse=None):

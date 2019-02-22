@@ -8,7 +8,7 @@ from builtins import int
 from builtins import map
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 import time
 
 import numpy as np
@@ -22,6 +22,7 @@ from stable_baselines.acer.buffer import Buffer
 from stable_baselines.common import ActorCriticRLModel, tf_util, SetVerbosity, TensorboardWriter
 from stable_baselines.common.runners import AbstractEnvRunner
 from stable_baselines.common.policies import LstmPolicy, ActorCriticPolicy
+standard_library.install_aliases()
 
 
 def strip(var, n_envs, n_steps, flat=False):

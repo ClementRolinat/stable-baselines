@@ -4,12 +4,13 @@ from __future__ import print_function
 from __future__ import absolute_import
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 from collections import deque
 
 import numpy as np
 
 from .running_stat import RunningStat
+standard_library.install_aliases()
 
 
 class Filter(object):

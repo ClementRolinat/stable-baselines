@@ -2,12 +2,12 @@ from __future__ import division
 from __future__ import unicode_literals
 from __future__ import print_function
 from __future__ import absolute_import
+from future import standard_library
 from builtins import super
 from builtins import range
 from builtins import int
 from builtins import zip
-from future import standard_library
-standard_library.install_aliases()
+
 import time
 
 import gym
@@ -20,6 +20,7 @@ from stable_baselines.common.policies import LstmPolicy, ActorCriticPolicy
 from stable_baselines.common.runners import AbstractEnvRunner
 from stable_baselines.a2c.utils import discount_with_dones, Scheduler, find_trainable_variables, mse, \
     total_episode_reward_logger
+standard_library.install_aliases()
 
 
 class A2C(ActorCriticRLModel):

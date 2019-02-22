@@ -6,12 +6,13 @@ from builtins import zip
 from builtins import super
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 import random
 
 import numpy as np
 
 from stable_baselines.common.segment_tree import SumSegmentTree, MinSegmentTree
+standard_library.install_aliases()
 
 
 class ReplayBuffer(object):

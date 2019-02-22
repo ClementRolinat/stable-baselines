@@ -5,7 +5,7 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import str
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 
 from mpi4py import MPI
@@ -16,6 +16,7 @@ from stable_baselines.common.atari_wrappers import make_atari, wrap_deepmind
 from stable_baselines.common.cmd_util import atari_arg_parser
 from stable_baselines.common.policies import CnnPolicy
 from stable_baselines.ppo1 import PPO1
+standard_library.install_aliases()
 
 
 def train(env_id, num_timesteps, seed):

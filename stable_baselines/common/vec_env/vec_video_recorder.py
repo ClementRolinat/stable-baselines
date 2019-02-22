@@ -3,13 +3,14 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 import os
 
 from gym.wrappers.monitoring import video_recorder
 
 from stable_baselines import logger
 from stable_baselines.common.vec_env import VecEnvWrapper, DummyVecEnv, VecNormalize, VecFrameStack, SubprocVecEnv
+standard_library.install_aliases()
 
 
 class VecVideoRecorder(VecEnvWrapper):

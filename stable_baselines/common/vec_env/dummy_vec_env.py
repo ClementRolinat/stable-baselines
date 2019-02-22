@@ -5,13 +5,14 @@ from __future__ import absolute_import
 from builtins import super
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 from collections import OrderedDict
 
 import numpy as np
 from gym import spaces
 
 from . import VecEnv
+standard_library.install_aliases()
 
 
 class DummyVecEnv(VecEnv):

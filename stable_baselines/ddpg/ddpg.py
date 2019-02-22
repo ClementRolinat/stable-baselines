@@ -11,7 +11,7 @@ from builtins import open
 from builtins import int
 from future import standard_library
 from future.utils import native_str
-standard_library.install_aliases()
+
 from functools import reduce
 import os
 import time
@@ -33,6 +33,7 @@ from stable_baselines.ddpg.policies import DDPGPolicy
 from stable_baselines.common.mpi_running_mean_std import RunningMeanStd
 from stable_baselines.a2c.utils import find_trainable_variables, total_episode_reward_logger
 from stable_baselines.ddpg.memory import Memory
+standard_library.install_aliases()
 
 
 def normalize(tensor, stats):

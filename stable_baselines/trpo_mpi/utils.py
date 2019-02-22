@@ -4,11 +4,12 @@ from __future__ import division
 from __future__ import absolute_import
 from builtins import range
 from future import standard_library
-standard_library.install_aliases()
+
 import gym
 import numpy as np
 
 from stable_baselines.common.vec_env import VecEnv
+standard_library.install_aliases()
 
 
 def traj_segment_generator(policy, env, horizon, reward_giver=None, gail=False):

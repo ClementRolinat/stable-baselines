@@ -5,12 +5,13 @@ from __future__ import absolute_import
 from builtins import super
 from builtins import zip
 from future import standard_library
-standard_library.install_aliases()
+
 import gym
 
 from stable_baselines.common import ActorCriticRLModel
 from stable_baselines.common.policies import ActorCriticPolicy
 from stable_baselines.trpo_mpi import TRPO
+standard_library.install_aliases()
 
 
 class GAIL(ActorCriticRLModel):

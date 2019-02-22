@@ -5,8 +5,9 @@ from __future__ import absolute_import
 from builtins import range
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 import tensorflow as tf
+standard_library.install_aliases()
 
 
 def gmatmul(tensor_a, tensor_b, transpose_a=False, transpose_b=False, reduce_dim=None):

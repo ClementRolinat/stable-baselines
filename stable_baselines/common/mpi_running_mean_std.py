@@ -4,12 +4,13 @@ from __future__ import unicode_literals
 from __future__ import absolute_import
 from builtins import int
 from future import standard_library
-standard_library.install_aliases()
+
 from mpi4py import MPI
 import tensorflow as tf
 import numpy as np
 
 import stable_baselines.common.tf_util as tf_util
+standard_library.install_aliases()
 
 
 class RunningMeanStd(object):

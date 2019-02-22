@@ -5,13 +5,14 @@ from __future__ import absolute_import
 from builtins import zip
 from builtins import open
 from future import standard_library
-standard_library.install_aliases()
+
 import pickle
 
 import numpy as np
 
 from stable_baselines.common.vec_env import VecEnvWrapper
 from stable_baselines.common.running_mean_std import RunningMeanStd
+standard_library.install_aliases()
 
 
 class VecNormalize(VecEnvWrapper):

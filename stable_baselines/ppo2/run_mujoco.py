@@ -4,7 +4,7 @@ from __future__ import print_function
 from __future__ import division
 from __future__ import absolute_import
 from future import standard_library
-standard_library.install_aliases()
+
 import numpy as np
 import gym
 
@@ -15,6 +15,7 @@ from stable_baselines.common.vec_env.vec_normalize import VecNormalize
 from stable_baselines.ppo2 import PPO2
 from stable_baselines.common.policies import MlpPolicy
 from stable_baselines.common.vec_env.dummy_vec_env import DummyVecEnv
+standard_library.install_aliases()
 
 
 def train(env_id, num_timesteps, seed):

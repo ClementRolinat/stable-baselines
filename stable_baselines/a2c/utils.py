@@ -2,17 +2,18 @@ from __future__ import division
 from __future__ import print_function
 from __future__ import unicode_literals
 from __future__ import absolute_import
+from future import standard_library
+
 from builtins import zip
 from builtins import str
 from builtins import range
-from future import standard_library
-standard_library.install_aliases()
 from builtins import object
+
 import os
 from collections import deque
-
 import numpy as np
 import tensorflow as tf
+standard_library.install_aliases()
 
 
 def sample(logits):
@@ -102,18 +103,8 @@ def ortho_init(scale=1.0):
     return _ortho_init
 
 
-def conv(input_tensor, scope, **_3to2kwargs):
-    if 'one_dim_bias' in _3to2kwargs: one_dim_bias = _3to2kwargs['one_dim_bias']; del _3to2kwargs['one_dim_bias']
-    else: one_dim_bias = False
-    if 'data_format' in _3to2kwargs: data_format = _3to2kwargs['data_format']; del _3to2kwargs['data_format']
-    else: data_format = 'NHWC'
-    if 'init_scale' in _3to2kwargs: init_scale = _3to2kwargs['init_scale']; del _3to2kwargs['init_scale']
-    else: init_scale = 1.0
-    if 'pad' in _3to2kwargs: pad = _3to2kwargs['pad']; del _3to2kwargs['pad']
-    else: pad = 'VALID'
-    stride = _3to2kwargs['stride']; del _3to2kwargs['stride']
-    filter_size = _3to2kwargs['filter_size']; del _3to2kwargs['filter_size']
-    n_filters = _3to2kwargs['n_filters']; del _3to2kwargs['n_filters']
+def conv(input_tensor, scope, n_filters=None, filter_size=None, stride=None,
+         pad='VALID', init_scale=1.0, data_format='NHWC', one_dim_bias=False):
     """
     Creates a 2d convolutional layer for TensorFlow
 
@@ -128,6 +119,8 @@ def conv(input_tensor, scope, **_3to2kwargs):
     :param one_dim_bias: (bool) If the bias should be one dimentional or not
     :return: (TensorFlow Tensor) 2d convolutional layer
     """
+    if n_filters is None or filter_size is None or stride is None:
+        raise ValueError('You need to  give n_filters, filter_size and strides arguments')
     if data_format == 'NHWC':
         channel_ax = 3
         strides = [1, stride, stride, 1]
@@ -149,11 +142,7 @@ def conv(input_tensor, scope, **_3to2kwargs):
         return bias + tf.nn.conv2d(input_tensor, weight, strides=strides, padding=pad, data_format=data_format)
 
 
-def linear(input_tensor, scope, n_hidden, **_3to2kwargs):
-    if 'init_bias' in _3to2kwargs: init_bias = _3to2kwargs['init_bias']; del _3to2kwargs['init_bias']
-    else: init_bias = 0.0
-    if 'init_scale' in _3to2kwargs: init_scale = _3to2kwargs['init_scale']; del _3to2kwargs['init_scale']
-    else: init_scale = 1.0
+def linear(input_tensor, scope, n_hidden, init_scale=1.0, init_bias=0.0):
     """
     Creates a fully connected layer for TensorFlow
 
